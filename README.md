@@ -1,24 +1,39 @@
-# README
+A Hacker News clone where users can post articles.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Technologies
 
-Things you may want to cover:
+- **Rails:** 7.1.3.4
+- **Ruby:** 3.2.2
 
-* Ruby version
+### Installation
 
-* System dependencies
+1. **Clone the repository:**
 
-* Configuration
+    ```sh
+    git clone git@github.com:vigetlabs/name-picker.git
+    cd name-picker
+    ```
 
-* Database creation
+2. **Install the required gems:**
 
-* Database initialization
+    ```sh
+    bundle install
+    ```
 
-* How to run the test suite
+3. **Set up the database:**
 
-* Services (job queues, cache servers, search engines, etc.)
+    ```sh
+    rails db:setup
+    ```
 
-* Deployment instructions
+4. **Start the Rails server:**
 
-* ...
+    ```sh
+    rails server
+    ```
+
+### Testing
+
+```sh
+bundle exec rspec
+```
