@@ -99,7 +99,9 @@ GEM
     connection_pool (2.4.1)
     crass (1.0.6)
     date (3.3.4)
-    diff-lcs (1.5.1)
+    debug (1.9.2)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     drb (2.2.1)
     erubi (1.13.0)
     factory_bot (6.4.6)
@@ -310,7 +312,7 @@ DEPENDENCIES
   bootsnap
   byebug
   capybara
-  factory_bot_rails
+  debug
   importmap-rails
   jbuilder
   pg (~> 1.1)
