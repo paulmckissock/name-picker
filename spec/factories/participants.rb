@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :participant do
-    text { "Joe" }
+    name { "Joe" }
     association :wheel, factory: :wheel
   end
 end
