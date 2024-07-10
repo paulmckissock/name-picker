@@ -12,5 +12,4 @@ RSpec.describe Participant, type: :model do
     participant.name = ""
     expect(participant.valid?).to be(false)
   end
-
 end

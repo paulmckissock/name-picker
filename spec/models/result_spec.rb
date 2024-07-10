@@ -19,5 +19,4 @@ RSpec.describe Result, type: :model do
     result.participant = nil
     expect(result.valid?).to be(false)
   end
-
 end

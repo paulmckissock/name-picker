@@ -5,7 +5,7 @@ class CreateResults < ActiveRecord::Migration[7.1]
       t.references :user, foreign_key: true
       t.references :wheel, null: false, foreign_key: true
 
-      t.timestamps  
+      t.timestamps
     end
   end
 end

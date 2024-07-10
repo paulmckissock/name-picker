@@ -11,5 +11,4 @@ RSpec.describe Wheel, type: :model do
     wheel.title = nil
     expect(wheel.valid?).to be(false)
   end
-
 end
