@@ -17,14 +17,25 @@ jobs:
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
-          
+
     steps:
       - uses: actions/checkout@v4
       - uses: ruby/setup-ruby@v1
         with:
           ruby-version: 3.2.2
           bundler-cache: true
+
       - name: standardrb
         run: bundle exec standardrb
+
       - name: Run tests
-        run: bundle exec rspec
+        env:
+          DB_HOST: 127.0.0.1
+          DB_PASSWORD: postgres
+          DB_USER: postgres
+          RAILS_ENV: test
+          VITE_RUBY_MODE: production
+          RSPEC_RETRY_RETRY_COUNT: 3
+        run: |
+          bundle exec rake db:create db:schema:load
+          bundle exec rspec -p
