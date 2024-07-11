@@ -28,7 +28,7 @@ participants = Participant.create!([
 ])
 
 # Create Results
-results = Result.create!([
+Result.create!([
   {participant: participants.first, user: users.first, wheel: wheels.first},
   {participant: participants.second, user: users.second, wheel: wheels.second},
   {participant: participants.third, user: users.third, wheel: wheels.third}
