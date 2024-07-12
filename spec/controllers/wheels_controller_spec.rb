@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe WheelsController, type: :controller do
   let!(:user) { create(:user) }
@@ -12,50 +12,50 @@ RSpec.describe WheelsController, type: :controller do
     expect(response.code).to eq("200")
   end
 
-  describe 'POST #create' do
-    context 'with valid attributes' do
-      it 'creates a new wheel' do
+  describe "POST #create" do
+    context "with valid attributes" do
+      it "creates a new wheel" do
         expect {
-          post :create, params: { wheel: { title: "Valid Title", user_id: user.id } }
+          post :create, params: {wheel: {title: "Valid Title", user_id: user.id}}
         }.to change(Wheel, :count).by(1)
       end
 
-      it 'redirects to the new wheel' do
-        post :create, params: { wheel: { title: "Valid Title", user_id: user.id }}
+      it "redirects to the new wheel" do
+        post :create, params: {wheel: {title: "Valid Title", user_id: user.id}}
         expect(response).to redirect_to(Wheel.last)
       end
     end
 
-    context 'with invalid attributes' do
-      it 'does not save the new wheel' do
+    context "with invalid attributes" do
+      it "does not save the new wheel" do
         expect {
-          post :create, params: { wheel: { title: nil, user_id: user.id } }
+          post :create, params: {wheel: {title: nil, user_id: user.id}}
         }.not_to change(Wheel, :count)
       end
 
-      it 're-renders the new template' do
-        post :create, params: { wheel: attributes_for(:wheel, title: nil) }
+      it "re-renders the new template" do
+        post :create, params: {wheel: attributes_for(:wheel, title: nil)}
         expect(response).to redirect_to(new_wheel_path)
       end
     end
   end
 
-  describe 'DELETE #destroy' do
-    it 'deletes the wheel' do
+  describe "DELETE #destroy" do
+    it "deletes the wheel" do
       wheel
       expect {
-        delete :destroy, params: { id: wheel.id }
+        delete :destroy, params: {id: wheel.id}
       }.to change(Wheel, :count).by(-1)
     end
 
-    it 'redirects to wheels#index' do
-      delete :destroy, params: { id: wheel.id }
+    it "redirects to wheels#index" do
+      delete :destroy, params: {id: wheel.id}
       expect(response).to redirect_to(wheels_path)
     end
   end
-  
+
   # describe 'PATCH #save' do
-  #   before do 
+  #   before do
   #     get :edit, params: { id: wheel.id }
   #   end
 
@@ -72,10 +72,9 @@ RSpec.describe WheelsController, type: :controller do
   #   end
   # end
 
-  # it 'adds new participants' do 
+  # it 'adds new participants' do
   #   post :temp_create, params: {id: wheel.id, name: 'Joe'}
   #   patch :save, params: { id: wheel.id}
   #   expect(wheel.participants.map(&:name)).to match_array(['Alice', 'Bob', 'Joe'])
   # end
-
 end

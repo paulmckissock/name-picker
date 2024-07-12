@@ -1,7 +1,6 @@
 class WheelsController < ApplicationController
-
   def index
-    #will be all wheels of current user when user login is setup
+    # will be all wheels of current user when user login is setup
     @wheels = Wheel.all
   end
 
@@ -25,13 +24,13 @@ class WheelsController < ApplicationController
       redirect_to new_wheel_path
     end
   end
-  
+
   def destroy
     wheel.destroy
     redirect_to wheels_path
   end
 
-  #Waiting until user login is setup to make these work
+  # Waiting until user login is setup to make these work
   #
   # def temp_create
   #   temp_participants << Participant.new(name: params[:name], wheel: wheel)
@@ -55,13 +54,12 @@ class WheelsController < ApplicationController
   #   end
   # end
 
-
   private
 
   def wheel
     @wheel ||= Wheel.find(params[:id])
   end
-  
+
   def wheel_params
     params.require(:wheel).permit(:title)
   end
@@ -71,18 +69,18 @@ class WheelsController < ApplicationController
   end
 
   # def update_participants(wheel, temp_participants)
-    # Add new participants
-    # temp_participants.each do |participant|
-    #   unless wheel.participants.exists?(name: participant.name)
-    #     wheel.participants.build(name: participant.name)
-    #   end
-    # end
+  # Add new participants
+  # temp_participants.each do |participant|
+  #   unless wheel.participants.exists?(name: participant.name)
+  #     wheel.participants.build(name: participant.name)
+  #   end
+  # end
 
-    # Remove participants that are not in temp_participants
-    # wheel.participants.each do |participant|
-    #   unless temp_participants.map(&:name).include?(participant.name)
-    #     participant.destroy
-    #   end
-    # end
+  # Remove participants that are not in temp_participants
+  # wheel.participants.each do |participant|
+  #   unless temp_participants.map(&:name).include?(participant.name)
+  #     participant.destroy
+  #   end
+  # end
   # end
 end
