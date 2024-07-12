@@ -50,7 +50,7 @@ RSpec.describe WheelsController, type: :controller do
 
     it 'redirects to wheels#index' do
       delete :destroy, params: { id: wheel.id }
-      expect(response).to redirect_to(new_wheel_path)
+      expect(response).to redirect_to(wheels_path)
     end
   end
   

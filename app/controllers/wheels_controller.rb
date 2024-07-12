@@ -28,7 +28,7 @@ class WheelsController < ApplicationController
   
   def destroy
     wheel.destroy
-    redirect_to new_wheel_path
+    redirect_to wheels_path
   end
 
   #Waiting until user login is setup to make these work
