@@ -1,5 +1,6 @@
 class WheelsController < ApplicationController
-  before_action :authenticate_user!, only: [:index, :show, :edit, :new, :create]
+  before_action :authenticate_user!
+
   def index
     @wheels = current_user.wheels
   end
