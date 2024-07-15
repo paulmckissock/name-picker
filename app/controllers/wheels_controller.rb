@@ -1,8 +1,7 @@
 class WheelsController < ApplicationController
   before_action :authenticate_user!, only: [:index, :show, :edit, :new, :create]
   def index
-    # will be all wheels of current user when user login is setup
-    @wheels = Wheel.all
+    @wheels = current_user.wheels
   end
 
   def show
