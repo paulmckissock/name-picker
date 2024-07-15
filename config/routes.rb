@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  devise_for :users
   root "wheels#index"
   resources :wheels do
     member do
