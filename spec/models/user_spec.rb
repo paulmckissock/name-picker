@@ -17,6 +17,11 @@ RSpec.describe User, type: :model do
     expect(duplicate_user.valid?).to be(false)
   end
 
+  it "email should be present" do
+    user.email = nil
+    expect(user).not_to be_valid
+  end
+
   it "password should be present (nonblank)" do
     user.password = user.password_confirmation = ""
     expect(user.valid?).to be(false)

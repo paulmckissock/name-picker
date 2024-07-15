@@ -6,51 +6,61 @@ RSpec.describe WheelsController, type: :controller do
   let!(:participant1) { create(:participant, wheel: wheel, name: "Alice") }
   let!(:participant2) { create(:participant, wheel: wheel, name: "Bob") }
 
-  it "should show wheel" do
-    get :show, params: {id: wheel.id}
-
-    expect(response.code).to eq("200")
+  it "should redirect new when not logged in" do
+    expect(get(:new)).to redirect_to new_user_session_path
   end
 
-  describe "POST #create" do
-    context "with valid attributes" do
-      it "creates a new wheel" do
-        expect {
+  describe "when logged in" do
+    before do
+      sign_in user
+    end
+
+    it "should show wheel" do
+      get :show, params: {id: wheel.id}
+
+      expect(response.code).to eq("200")
+    end
+
+    describe "POST #create" do
+      context "with valid attributes" do
+        it "creates a new wheel" do
+          expect {
+            post :create, params: {wheel: {title: "Valid Title", user_id: user.id}}
+          }.to change(Wheel, :count).by(1)
+        end
+
+        it "redirects to the new wheel" do
           post :create, params: {wheel: {title: "Valid Title", user_id: user.id}}
-        }.to change(Wheel, :count).by(1)
+          expect(response).to redirect_to(Wheel.last)
+        end
       end
 
-      it "redirects to the new wheel" do
-        post :create, params: {wheel: {title: "Valid Title", user_id: user.id}}
-        expect(response).to redirect_to(Wheel.last)
+      context "with invalid attributes" do
+        it "does not save the new wheel" do
+          expect {
+            post :create, params: {wheel: {title: nil, user_id: user.id}}
+          }.not_to change(Wheel, :count)
+        end
+
+        it "re-renders the new template" do
+          post :create, params: {wheel: attributes_for(:wheel, title: nil)}
+          expect(response).to redirect_to(new_wheel_path)
+        end
       end
     end
 
-    context "with invalid attributes" do
-      it "does not save the new wheel" do
+    describe "DELETE #destroy" do
+      it "deletes the wheel" do
+        wheel
         expect {
-          post :create, params: {wheel: {title: nil, user_id: user.id}}
-        }.not_to change(Wheel, :count)
+          delete :destroy, params: {id: wheel.id}
+        }.to change(Wheel, :count).by(-1)
       end
 
-      it "re-renders the new template" do
-        post :create, params: {wheel: attributes_for(:wheel, title: nil)}
-        expect(response).to redirect_to(new_wheel_path)
-      end
-    end
-  end
-
-  describe "DELETE #destroy" do
-    it "deletes the wheel" do
-      wheel
-      expect {
+      it "redirects to wheels#index" do
         delete :destroy, params: {id: wheel.id}
-      }.to change(Wheel, :count).by(-1)
-    end
-
-    it "redirects to wheels#index" do
-      delete :destroy, params: {id: wheel.id}
-      expect(response).to redirect_to(wheels_path)
+        expect(response).to redirect_to(wheels_path)
+      end
     end
   end
 
