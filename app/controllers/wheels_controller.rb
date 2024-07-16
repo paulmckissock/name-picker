@@ -82,14 +82,14 @@ class WheelsController < ApplicationController
   end
 
   def update_participants(wheel, temp_participants)
-    #Creates participants that are not in wheel.participants already
+    # Creates participants that are not in wheel.participants already
     temp_participants.each do |participant|
       unless wheel.participants.exists?(name: participant.name)
         wheel.participants.build(name: participant.name)
       end
     end
 
-    #Deletes participants that are not in temp_participants
+    # Deletes participants that are not in temp_participants
     wheel.participants.each do |participant|
       unless temp_participants.any? { |temp_participant| temp_participant[:name] == participant.name }
         participant.destroy
