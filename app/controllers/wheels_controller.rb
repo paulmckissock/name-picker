@@ -38,21 +38,20 @@ class WheelsController < ApplicationController
 
   def temp_delete
     load_participants
-    temp_participants.reject! { |p| p[:name] == params[:name] }
+    temp_participants.reject! { |p| p[:id].to_s == params[:participant_id] }
     save_temp_participants
   end
 
-  def save
+  def update
     load_participants
-    update_participants(wheel, @temp_participants)
+    update_participants
 
     if wheel.save
       flash[:notice] = "Participants updated successfully."
-      redirect_to wheel
     else
       flash[:alert] = "Error updating participants."
-      redirect_to edit_wheel_path(wheel.id)
     end
+    redirect_to wheel
   end
 
   private
@@ -81,17 +80,18 @@ class WheelsController < ApplicationController
     @temp_participants = session[temp_participants_key] || temp_participants
   end
 
-  def update_participants(wheel, temp_participants)
+  def update_participants
     # Creates participants that are not in wheel.participants already
+    load_participants
     temp_participants.each do |participant|
-      unless wheel.participants.exists?(name: participant.name)
+      unless wheel.participants.exists?(id: participant.id)
         wheel.participants.build(name: participant.name)
       end
     end
 
     # Deletes participants that are not in temp_participants
     wheel.participants.each do |participant|
-      unless temp_participants.any? { |temp_participant| temp_participant[:name] == participant.name }
+      unless temp_participants.any? { |temp_participant| temp_participant[:id] == participant.id }
         participant.destroy
       end
     end
