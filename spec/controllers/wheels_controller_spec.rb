@@ -62,29 +62,34 @@ RSpec.describe WheelsController, type: :controller do
         expect(response).to redirect_to(wheels_path)
       end
     end
+    before do
+      get :show, params: {id: wheel.id}
+    end
+
+    it "doesnt change participants when no edits are made" do
+      patch :save, params: {id: wheel.id}
+      wheel.reload
+      expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob"])
+    end
+    it "re-renders the show template on failure" do
+      allow_any_instance_of(Wheel).to receive(:save).and_return(false)
+      patch :save, params: {id: wheel.id, temp_participants: []}
+      expect(response).to redirect_to(edit_wheel_path(wheel))
+    end
+    it "adds new participants" do
+      post :temp_create, params: {id: wheel.id, name: "Joe"}
+      post :temp_create, params: {id: wheel.id, name: "Steve"}
+      patch :save, params: {id: wheel.id}
+      wheel.reload
+
+      expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob", "Joe", "Steve"])
+    end
+    it "Removes participants" do
+      post :temp_create, params: {id: wheel.id, name: "Joe"}
+      post :temp_delete, params: {id: wheel.id, name: "Bob"}
+      patch :save, params: {id: wheel.id}
+      wheel.reload
+      expect(wheel.participants.map(&:name)).to match_array(["Joe", "Alice"])
+    end
   end
-
-  # describe 'PATCH #save' do
-  #   before do
-  #     get :edit, params: { id: wheel.id }
-  #   end
-
-  #   it 'doesnt change participants when no edits are made' do
-  #     patch :save, params: { id: wheel.id}
-  #     wheel.reload
-  #     expect(wheel.participants.map(&:name)).to match_array(['Alice', 'Bob'])
-  #   end
-
-  #   it 're-renders the show template on failure' do
-  #     allow_any_instance_of(Wheel).to receive(:save).and_return(false)
-  #     patch :save, params: { id: wheel.id, temp_participants: [] }
-  #     expect(response).to redirect_to(edit_wheel_path(wheel))
-  #   end
-  # end
-
-  # it 'adds new participants' do
-  #   post :temp_create, params: {id: wheel.id, name: 'Joe'}
-  #   patch :save, params: { id: wheel.id}
-  #   expect(wheel.participants.map(&:name)).to match_array(['Alice', 'Bob', 'Joe'])
-  # end
 end

@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     member do
       post :temp_create
       post :temp_delete
+      post :save
     end
   end
 end
