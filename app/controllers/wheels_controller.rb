@@ -6,9 +6,6 @@ class WheelsController < ApplicationController
   end
 
   def show
-  end
-
-  def edit
     @participant = Participant.new
   end
 
@@ -33,27 +30,30 @@ class WheelsController < ApplicationController
 
   # Waiting until user login is setup to make these work
   #
-  # def temp_create
-  #   temp_participants << Participant.new(name: params[:name], wheel: wheel)
-  #   byebug
-  # end
+  def temp_create
+    load_participants
+    temp_participants << Participant.new(name: params[:name], wheel: wheel)
+    save_temp_participants
+  end
 
-  # def temp_delete
-  #   participant_name = params[:participant_name]
-  #   @temp_participants.reject! { |p| p.name == participant_name }
-  # end
+  def temp_delete
+    load_participants
+    temp_participants.reject! { |p| p[:name] == params[:name] }
+    save_temp_participants
+  end
 
-  # def save
-  #   update_participants(wheel, temp_participants)
+  def save
+    load_participants
+    update_participants(wheel, @temp_participants)
 
-  #   if wheel.save
-  #     flash[:notice] = 'Participants updated successfully.'
-  #     redirect_to wheel
-  #   else
-  #     flash[:alert] = 'Error updating participants.'
-  #     redirect_to edit_wheel_path(wheel.id)
-  #   end
-  # end
+    if wheel.save
+      flash[:notice] = "Participants updated successfully."
+      redirect_to wheel
+    else
+      flash[:alert] = "Error updating participants."
+      redirect_to edit_wheel_path(wheel.id)
+    end
+  end
 
   private
 
@@ -69,19 +69,31 @@ class WheelsController < ApplicationController
     @temp_participants ||= wheel.participants.to_a
   end
 
-  # def update_participants(wheel, temp_participants)
-  # Add new participants
-  # temp_participants.each do |participant|
-  #   unless wheel.participants.exists?(name: participant.name)
-  #     wheel.participants.build(name: participant.name)
-  #   end
-  # end
+  def temp_participants_key
+    "temp_participants_#{wheel.id}"
+  end
 
-  # Remove participants that are not in temp_participants
-  # wheel.participants.each do |participant|
-  #   unless temp_participants.map(&:name).include?(participant.name)
-  #     participant.destroy
-  #   end
-  # end
-  # end
+  def save_temp_participants
+    session[temp_participants_key] = @temp_participants
+  end
+
+  def load_participants
+    @temp_participants = session[temp_participants_key] || temp_participants
+  end
+
+  def update_participants(wheel, temp_participants)
+    #Creates participants that are not in wheel.participants already
+    temp_participants.each do |participant|
+      unless wheel.participants.exists?(name: participant.name)
+        wheel.participants.build(name: participant.name)
+      end
+    end
+
+    #Deletes participants that are not in temp_participants
+    wheel.participants.each do |participant|
+      unless temp_participants.any? { |temp_participant| temp_participant[:name] == participant.name }
+        participant.destroy
+      end
+    end
+  end
 end
