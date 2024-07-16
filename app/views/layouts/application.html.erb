@@ -7,13 +7,14 @@
     <%= csp_meta_tag %>
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
-
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
   
   </head>
 
-  <body>
+  <body class="bg-blue-500">
+    <h1 class="text-red-500">Tailwind Testing</h1>
+    <h2 class="text-green-100">hello</h2>
+    <h1 class="text-red-500">Tailwind Testing</h1>
     <p>
       <% if user_signed_in? %>
         Logged in as <strong><%= current_user.email %></strong>.
