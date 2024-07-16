@@ -1,34 +1,53 @@
-<h2>Sign up</h2>
+<!--Sign up-->
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+<div class="h-screen flex flex-row">
+    <div class="w-1/2 bg-blue-300 flex items-center justify-center">
+        <div class="p-20">
+            <!-- Left half content -->
+            <h1>READY TO SPINET?</h1>
+            <p>Enter your details and step some more words to make it catchy im not creative</p>
+        </div>
+    </div>
+    <div class="w-1/2 flex items-center justify-center">
+        <div class="p-10 gap-8">
+          <!-- Right half content -->
+          <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+            <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :username %><br />
-    <%= f.text_field :username, autofocus: true %>
-  </div>
+            <h3>Create Account</h3>
+            <div class="">
+              <%= f.label :username %><br />
+              <%= f.text_field :username, autofocus: true %>
+            </div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
+            <div class="field">
+              <%= f.label :email %><br />
+              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+            </div>
 
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> characters minimum)</em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
+            <h3 class="pt-6">Create Password</h3>
+            <div class="field">
+              <%= f.label :password %>
+              <% if @minimum_password_length %>
+              <em>(<%= @minimum_password_length %> characters minimum)</em>
+              <% end %><br />
+              <%= f.password_field :password, autocomplete: "new-password" %>
+            </div>
 
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
+            <div class="field">
+              <%= f.label :password_confirmation %><br />
+              <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+            </div>
 
-  <div class="actions">
-    <%= f.submit "Sign up" %>
-  </div>
-<% end %>
+            <div class="btn-primary actions">
+              <%= f.submit "Sign up" %>
+            </div>
+          <% end %>
 
-<%= render "devise/shared/links" %>
+          <div class="flex flex-row gap-3">
+            <p>Already have an account?</p> 
+            <%= render "devise/shared/links" %>
+          </div>
+        </div>
+    </div>
+</div>
