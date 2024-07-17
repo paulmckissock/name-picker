@@ -43,7 +43,6 @@ class WheelsController < ApplicationController
   end
 
   def update
-    load_participants
     update_participants
 
     if wheel.save
