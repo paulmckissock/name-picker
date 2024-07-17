@@ -1,58 +1,11 @@
+<h1>New Wheel</h1>
 
-
-<div class="h-screen flex flex-row">
-    <div class="w-1/2 flex items-center justify-center">
-        <div class="p-20">
-            <!-- The wheel -->
-            <h1>New Wheel</h1>
-            <div id="wheel">
-            <canvas id="canvas" width="610" height="600"></canvas>
-            </div>
-            <div id="stats">
-            </div>
-        </div>
-    </div>
-    <div class="w-1/2 flex items-center justify-center">
-        <div class="p-10 gap-8">
-          <!-- Participants tabs -->
-            <div class="relative shadow-lg w-96 p-4">
-                <div class="absolute -top-10 left-0 flex space-x-2">
-                    <div id="editTab" class="tab bg-blue-500 text-white px-4 py-2 rounded-t-lg">Edit</div>
-                    <div id="viewTab" class="tab bg-gray-200 px-4 py-2 rounded-t-lg">View</div>
-                </div>
-                <div id="viewMode" class="hidden p-4">
-                <h2 class="text-lg font-bold">Past Results</h2>
-                <div class="flex flex-wrap gap-2">
-                    <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
-                        <p>Ciel</p>
-                    </div>
-                    <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
-                        <p>Paul</p>
-                    </div>
-                </div>
-                </div>
-                <div id="editMode" class="p-4">
-                <h2 class="text-lg font-bold">Edit Participants</h2>
-                <div class="flex flex-wrap gap-2 pb-4">
-                    <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
-                        <p>Ciel</p>
-                        <button>x</button>
-                    </div>
-                    <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
-                        <p>Paul</p>
-                        <button>x</button>
-                    </div>
-                </div>
-                <div class="flex">
-                    <input type="text" class="w-full p-2 border border-gray-300 rounded-l" placeholder="Input a participant">
-                    <button class="bg-blue-500 text-white px-4 py-2 rounded-r">Enter</button>
-                </div>
-                </div>
-            </div>
-        </div>
-    </div>
+<!-- The wheel -->
+<div id="wheel">
+  <canvas id="canvas" width="610" height="600"></canvas>
 </div>
-
+<div id="stats">
+</div>
 
 <!-- The winner modal -->
 <div id="modal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
@@ -68,34 +21,6 @@
 
 
 <script src="https://code.jquery.com/jquery-1.6.2.min.js" integrity="sha256-0W0HoDU0BfzslffvxQomIbx0Jfml6IlQeDlvsNxGDE8=" crossorigin="anonymous"></script>
-
-<!-- Participants edit + view functionality -->
-<script>
-    const viewTab = document.getElementById('viewTab');
-    const editTab = document.getElementById('editTab');
-    const viewMode = document.getElementById('viewMode');
-    const editMode = document.getElementById('editMode');
-
-    viewTab.addEventListener('click', () => {
-      viewTab.classList.add('bg-blue-500', 'text-white');
-      viewTab.classList.remove('bg-gray-200', 'text-black');
-      editTab.classList.add('bg-gray-200', 'text-black');
-      editTab.classList.remove('bg-blue-500', 'text-white');
-      viewMode.classList.remove('hidden');
-      editMode.classList.add('hidden');
-    });
-
-    editTab.addEventListener('click', () => {
-      editTab.classList.add('bg-blue-500', 'text-white');
-      editTab.classList.remove('bg-gray-200', 'text-black');
-      viewTab.classList.add('bg-gray-200', 'text-black');
-      viewTab.classList.remove('bg-blue-500', 'text-white');
-      viewMode.classList.add('hidden');
-      editMode.classList.remove('hidden');
-    });
-  </script>
-
-<!-- Wheel spinning functionality -->
 <script>
 // Helpers
 shuffle = function (o) {
