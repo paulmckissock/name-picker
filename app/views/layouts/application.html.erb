@@ -8,27 +8,33 @@
     <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= javascript_include_tag 'application', 'data-turbo-track': 'reload' %>
-  
   </head>
 
   <body class="">
-
-    <p>
-      <% if user_signed_in? %>
-        Logged in as <strong><%= current_user.email %></strong>.
-        <%= link_to "Edit profile", edit_user_registration_path%> |
-        <%= link_to "Logout", destroy_user_session_path, method: :delete%>
-      <% else %>
-        <%= link_to "Sign up", new_user_registration_path, class: "navbar-link"  %> |
-        <%= link_to "Login", new_user_session_path, class: "navbar-link"  %>
-      <% end %>
-    </p>
+    <!-- alert banner -->
     <% if notice %>
       <p class="alert alert-success"><%= notice %></p>
     <% end %>
     <% if alert %>
       <p class="alert alert-danger"><%= alert %></p>
     <% end %>
+
+    <!-- nav bar -->
+    <% unless current_page?(new_user_registration_path) %>
+      <div class="flex justify-between p-4">
+        <div class="">
+          Spinet Logo
+        </div>
+        <div class="flex gap-4">
+          <% if user_signed_in? %>
+            <!-- Logged in as <strong><%= current_user.email %></strong>.-->
+            <%= link_to "Profile", edit_user_registration_path, class: "btn-secondary"%>
+            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn-secondary" %>
+          <% end %>
+        </div>
+      </div>
+    <% end %>
+
     <%= yield %>
   </body>
 </html>

@@ -14,14 +14,20 @@ module.exports = {
       },
       colors: {
         blue: {
-          300: "#4BB0E3",
+          200: "#A5D8F1",
+          500: "#4BB0E3",
           800: "#1F559E",
         },
-        orange: "#E66C15",
+        orange: {
+          200: "#F3B68A",
+          500: "#E66C15",
+        },
         yellow: {
-          300: "#EEB71E",
+          200: "#F6DB8F",
+          500: "#EEB71E",
           800: "#B98B37",
         },
+        offWhite: "#ECF3F6",
       },
     },
   },
