@@ -13,17 +13,17 @@
   <body class="">
     <!-- alert banner -->
     <% if notice %>
-      <p class="alert alert-success"><%= notice %></p>
+      <p id="alert-banner" class="alert alert-success fixed top-0 left-0 w-full z-50 p-4"><%= notice %></p>
     <% end %>
     <% if alert %>
-      <p class="alert alert-danger"><%= alert %></p>
+      <p id="alert-banner" class="alert alert-danger fixed top-0 left-0 w-full z-50 p-4"><%= alert %></p>
     <% end %>
 
     <!-- nav bar -->
     <% unless current_page?(new_user_registration_path) %>
-      <div class="flex justify-between p-4">
-        <div class="">
-          Spinet Logo
+      <div class="flex justify-between p-4 h-28">
+        <div class="px-4">
+          <img src="/images/logo.png" alt="The Spinet logo" class="max-w-40">
         </div>
         <div class="flex gap-4">
           <% if user_signed_in? %>
@@ -36,5 +36,20 @@
     <% end %>
 
     <%= yield %>
+
+    <!-- alert banner script-->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const alertBanner = document.getElementById('alert-banner');
+        if (alertBanner) {
+          setTimeout(function() {
+            alertBanner.style.transition = "opacity 1s ease";
+            alertBanner.style.opacity = 0;
+            setTimeout(() => alertBanner.remove(), 1000);
+          }, 2000);
+        }
+      });
+    </script>
+
   </body>
 </html>
