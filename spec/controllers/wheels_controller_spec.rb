@@ -95,5 +95,33 @@ RSpec.describe WheelsController, type: :controller do
       wheel.reload
       expect(wheel.participants.map(&:name)).to match_array(["Bob", "Alice"])
     end
+
+    describe "sort_alphabetically" do
+      it "sorts participants alphabetically by name" do
+        post :temp_create, params: {id: wheel.id, name: "Charlie"}
+        post :sort_alphabetically, params: {id: wheel.id}
+        temp_participants = session["temp_participants_#{wheel.id}"]
+        expect(temp_participants.map { |p| p[:name] }).to eq(["Alice", "Bob", "Charlie"])
+      end
+    end
+
+    it "shuffles participants" do
+      post :temp_create, params: {id: wheel.id, name: "Charlie"}
+      post :temp_create, params: {id: wheel.id, name: "John"}
+      original_order = session["temp_participants_#{wheel.id}"].dup
+      shuffled_differently = false
+
+      # Checks five times to lower the chance that the shuffle returns the same order and the test fails
+      5.times do
+        post :shuffle, params: {id: wheel.id}
+        temp_participants = session["temp_participants_#{wheel.id}"]
+        if temp_participants != original_order
+          shuffled_differently = true
+          break
+        end
+      end
+
+      expect(shuffled_differently).to be true
+    end
   end
 end

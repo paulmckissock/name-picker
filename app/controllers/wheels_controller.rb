@@ -23,6 +23,18 @@ class WheelsController < ApplicationController
     end
   end
 
+  def sort_alphabetically
+    load_participants
+    @temp_participants.sort_by! { |participant| participant[:name].downcase }
+    save_temp_participants
+  end
+
+  def shuffle
+    load_participants
+    @temp_participants.shuffle!
+    save_temp_participants
+  end
+
   def destroy
     wheel.destroy
     redirect_to wheels_path
