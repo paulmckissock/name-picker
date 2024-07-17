@@ -52,6 +52,11 @@ class WheelsController < ApplicationController
     save_temp_participants
   end
 
+  def reset_participants
+    @temp_participants = wheel.participants.to_a
+    save_temp_participants
+  end
+
   def update
     update_participants
 

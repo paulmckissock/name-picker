@@ -7,6 +7,7 @@ Rails.application.routes.draw do
       post :temp_delete
       post :sort_alphabetically
       post :shuffle
+      post :reset_participants
     end
   end
 end

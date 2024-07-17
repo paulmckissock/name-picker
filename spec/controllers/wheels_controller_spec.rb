@@ -96,6 +96,14 @@ RSpec.describe WheelsController, type: :controller do
         wheel.reload
         expect(wheel.participants.map(&:name)).to match_array(["Bob", "Alice"])
       end
+
+      it "Resets unsaved changes" do
+        post :temp_create, params: {id: wheel.id, name: "Joe"}
+        post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}
+        post :reset_participants, params: {id: wheel.id}
+        temp_participants = session["temp_participants_#{wheel.id}"]
+        expect(temp_participants.map { |p| p[:name] }).to match_array(["Alice", "Bob"])
+      end
     end
 
     describe "Participant sorting" do
@@ -121,7 +129,6 @@ RSpec.describe WheelsController, type: :controller do
             break
           end
         end
-
         expect(shuffled_differently).to be true
       end
     end
