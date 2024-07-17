@@ -5,6 +5,8 @@ Rails.application.routes.draw do
     member do
       post :temp_create
       post :temp_delete
+      post :sort_alphabetically
+      post :shuffle
     end
   end
 end
