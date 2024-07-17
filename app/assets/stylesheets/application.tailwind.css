@@ -26,6 +26,9 @@
 
 @layer components {
   .btn-primary {
-    @apply flex justify-center py-2 px-4 bg-yellow text-white mb-4;
+    @apply text-center bg-yellow-300 px-4 py-2 hover:bg-yellow-800;
+  }
+  .btn-secondary {
+    @apply bg-gray-500 text-white px-4 py-2 hover:bg-gray-700;
   }
 }

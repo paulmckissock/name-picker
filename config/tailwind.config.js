@@ -10,7 +10,6 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
       },
       colors: {
@@ -19,8 +18,10 @@ module.exports = {
           800: "#1F559E",
         },
         orange: "#E66C15",
-        yellow: "#EEB71E",
-
+        yellow: {
+          300: "#EEB71E",
+          800: "#B98B37",
+        },
       },
     },
   },
