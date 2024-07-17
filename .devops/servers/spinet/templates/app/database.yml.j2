@@ -1,0 +1,11 @@
+# {{ ansible_managed }}
+
+production:
+  adapter: postgresql
+  encoding: unicode
+  reconnect: false
+  pool: 5
+  database: {{ config.database.name }}
+  username: {{ config.database.users.app.name }}
+  password: {{ config.database.users.app.password }}
+  host: {{ config.database.host }}
