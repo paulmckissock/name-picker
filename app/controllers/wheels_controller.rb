@@ -8,7 +8,7 @@ class WheelsController < ApplicationController
   def show
     @participant = Participant.new
     @results = wheel.results.order(created_at: :desc)
-    load_participants
+    load_temp_participants
   end
 
   def new
@@ -63,7 +63,7 @@ class WheelsController < ApplicationController
   end
 
   def temp_create
-    load_participants
+    load_temp_participants
     temp_id = (temp_participants.map { |p| p[:id] }.max || 0) + 1
     participant = { id: temp_id, name: params[:name], wheel_id: wheel.id, created_at: Time.now, updated_at: Time.now }
     temp_participants << participant
@@ -74,7 +74,7 @@ class WheelsController < ApplicationController
   end
 
   def temp_delete
-    load_participants
+    load_temp_participants
     temp_participants.reject! { |p| p["id"].to_s == params[:participant_id] }
     save_temp_participants
     respond_to do |format|
