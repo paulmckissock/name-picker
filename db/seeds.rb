@@ -1,5 +1,5 @@
-Participant.destroy_all
 Result.destroy_all
+Participant.destroy_all
 Wheel.destroy_all
 User.destroy_all
 
@@ -16,15 +16,21 @@ wheels = Wheel.create!([
 ])
 
 participants = Participant.create!([
-  {name: "Participant 1", wheel: wheels.first},
+  {name: "Paul", wheel: wheels.first},
+  {name: "Ciel", wheel: wheels.first},
+  {name: "Faye", wheel: wheels.first},
+  {name: "Aubrey", wheel: wheels.first},
+  {name: "Nathan", wheel: wheels.first},
+  {name: "Lauren", wheel: wheels.first},
   {name: "Participant 2", wheel: wheels.second},
   {name: "Participant 3", wheel: wheels.third}
 ])
 
 Result.create!([
-  {participant: participants.first, user: users.first, wheel: wheels.first},
-  {participant: participants.second, user: users.second, wheel: wheels.second},
-  {participant: participants.third, user: users.third, wheel: wheels.third}
+  {participant: participants.first, participant_name: participants.first.name, user: users.first, wheel: wheels.first},
+  {participant: participants.first, participant_name: participants.first.name, user: users.first, wheel: wheels.first},
+  {participant: participants.second, participant_name: participants.second.name, user: users.first, wheel: wheels.first},
+  {participant: participants.second, participant_name: participants.second.name, user: users.first, wheel: wheels.first}
 ])
 
 puts "Seeding complete!"

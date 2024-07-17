@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_07_15_153450) do
+ActiveRecord::Schema[7.1].define(version: 2024_07_17_232512) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -24,11 +24,12 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_153450) do
   end
 
   create_table "results", force: :cascade do |t|
-    t.bigint "participant_id", null: false
+    t.bigint "participant_id"
     t.bigint "user_id"
     t.bigint "wheel_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "participant_name"
     t.index ["participant_id"], name: "index_results_on_participant_id"
     t.index ["user_id"], name: "index_results_on_user_id"
     t.index ["wheel_id"], name: "index_results_on_wheel_id"
@@ -57,7 +58,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_15_153450) do
   end
 
   add_foreign_key "participants", "wheels"
-  add_foreign_key "results", "participants"
   add_foreign_key "results", "users"
   add_foreign_key "results", "wheels"
   add_foreign_key "wheels", "users"
