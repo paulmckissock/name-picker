@@ -28,8 +28,6 @@ class WheelsController < ApplicationController
     redirect_to wheels_path
   end
 
-  # Waiting until user login is setup to make these work
-  #
   def temp_create
     load_participants
     temp_participants << Participant.new(name: params[:name], wheel: wheel)
