@@ -66,62 +66,64 @@ RSpec.describe WheelsController, type: :controller do
       get :show, params: {id: wheel.id}
     end
 
-    it "doesnt change participants when no edits are made" do
-      patch :update, params: {id: wheel.id}
-      wheel.reload
-      expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob"])
+    describe "Participant editing" do
+      it "doesnt change participants when no edits are made" do
+        patch :update, params: {id: wheel.id}
+        wheel.reload
+        expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob"])
+      end
+
+      it "re-renders the show template on failure" do
+        allow_any_instance_of(Wheel).to receive(:update).and_return(false)
+        patch :update, params: {id: wheel.id, temp_participants: []}
+        expect(response).to redirect_to(wheel)
+      end
+
+      it "adds new participants" do
+        post :temp_create, params: {id: wheel.id, name: "Joe"}
+        post :temp_create, params: {id: wheel.id, name: "Steve"}
+        post :temp_create, params: {id: wheel.id, name: "Steve"}
+        patch :update, params: {id: wheel.id}
+        wheel.reload
+
+        expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob", "Joe", "Steve", "Steve"])
+      end
+
+      it "Removes participants" do
+        post :temp_create, params: {id: wheel.id, name: "Bob"}
+        post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}
+        patch :update, params: {id: wheel.id}
+        wheel.reload
+        expect(wheel.participants.map(&:name)).to match_array(["Bob", "Alice"])
+      end
     end
 
-    it "re-renders the show template on failure" do
-      allow_any_instance_of(Wheel).to receive(:update).and_return(false)
-      patch :update, params: {id: wheel.id, temp_participants: []}
-      expect(response).to redirect_to(wheel)
-    end
-
-    it "adds new participants" do
-      post :temp_create, params: {id: wheel.id, name: "Joe"}
-      post :temp_create, params: {id: wheel.id, name: "Steve"}
-      post :temp_create, params: {id: wheel.id, name: "Steve"}
-      patch :update, params: {id: wheel.id}
-      wheel.reload
-
-      expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob", "Joe", "Steve", "Steve"])
-    end
-
-    it "Removes participants" do
-      post :temp_create, params: {id: wheel.id, name: "Bob"}
-      post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}
-      patch :update, params: {id: wheel.id}
-      wheel.reload
-      expect(wheel.participants.map(&:name)).to match_array(["Bob", "Alice"])
-    end
-
-    describe "sort_alphabetically" do
+    describe "Participant sorting" do
       it "sorts participants alphabetically by name" do
         post :temp_create, params: {id: wheel.id, name: "Charlie"}
         post :sort_alphabetically, params: {id: wheel.id}
         temp_participants = session["temp_participants_#{wheel.id}"]
         expect(temp_participants.map { |p| p[:name] }).to eq(["Alice", "Bob", "Charlie"])
       end
-    end
 
-    it "shuffles participants" do
-      post :temp_create, params: {id: wheel.id, name: "Charlie"}
-      post :temp_create, params: {id: wheel.id, name: "John"}
-      original_order = session["temp_participants_#{wheel.id}"].dup
-      shuffled_differently = false
+      it "shuffles participants" do
+        post :temp_create, params: {id: wheel.id, name: "Charlie"}
+        post :temp_create, params: {id: wheel.id, name: "John"}
+        original_order = session["temp_participants_#{wheel.id}"].dup
+        shuffled_differently = false
 
-      # Checks five times to lower the chance that the shuffle returns the same order and the test fails
-      5.times do
-        post :shuffle, params: {id: wheel.id}
-        temp_participants = session["temp_participants_#{wheel.id}"]
-        if temp_participants != original_order
-          shuffled_differently = true
-          break
+        # Checks five times to lower the chance that the shuffle returns the same order and the test fails
+        5.times do
+          post :shuffle, params: {id: wheel.id}
+          temp_participants = session["temp_participants_#{wheel.id}"]
+          if temp_participants != original_order
+            shuffled_differently = true
+            break
+          end
         end
-      end
 
-      expect(shuffled_differently).to be true
+        expect(shuffled_differently).to be true
+      end
     end
   end
 end

@@ -24,13 +24,13 @@ class WheelsController < ApplicationController
   end
 
   def sort_alphabetically
-    load_participants
+    load_temp_participants
     @temp_participants.sort_by! { |participant| participant[:name].downcase }
     save_temp_participants
   end
 
   def shuffle
-    load_participants
+    load_temp_participants
     @temp_participants.shuffle!
     save_temp_participants
   end
@@ -41,13 +41,13 @@ class WheelsController < ApplicationController
   end
 
   def temp_create
-    load_participants
+    load_temp_participants
     temp_participants << Participant.new(name: params[:name], wheel: wheel)
     save_temp_participants
   end
 
   def temp_delete
-    load_participants
+    load_temp_participants
     temp_participants.reject! { |p| p[:id].to_s == params[:participant_id] }
     save_temp_participants
   end
@@ -85,13 +85,13 @@ class WheelsController < ApplicationController
     session[temp_participants_key] = @temp_participants
   end
 
-  def load_participants
+  def load_temp_participants
     @temp_participants = session[temp_participants_key] || temp_participants
   end
 
   def update_participants
     # Creates participants that are not in wheel.participants already
-    load_participants
+    load_temp_participants
     temp_participants.each do |participant|
       unless wheel.participants.exists?(id: participant.id)
         wheel.participants.build(name: participant.name)
