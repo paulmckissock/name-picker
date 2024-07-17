@@ -1,0 +1,66 @@
+---
+ansible_host: 54.211.116.57
+ansible_user: ansible
+
+# firewall
+firewall_rules:
+  - port: 80
+  - port: 443
+
+# deploy
+deploy_user_authorized_keys:
+  - keys/users/deisinger.pub
+  - keys/users/nover.pub
+  - keys/users/nmorgan.pub
+  - keys/users/pmckissock.pub
+  - keys/system/github.pub
+
+# ruby
+ruby_build_version: v20240709.1
+ruby_version: 3.2.2
+ruby_bundler_version: 2.5.15
+
+# postgres
+postgresql_role: server
+postgresql_version: 14
+
+postgresql_users:
+  - name: "{{ vault.postgres.users.app.name }}"
+    password: "{{ vault.postgres.users.app.password }}"
+
+postgresql_databases:
+  - name: "{{ vault.postgres.name }}"
+    owner: "{{ vault.postgres.users.app.name }}"
+
+# ssl
+ssl_certificates:
+  - type:    certbot
+    domain:  spinet.vigetx.com
+    email:   devops@viget.com
+
+# nginx
+nginx_passenger: True
+
+nginx_sites:
+  - state:       enabled
+    domain:      spinet.vigetx.com
+    template:    spinet.vigetx.com.conf
+    name:        spinet
+    type:        rails
+    environment: production
+    root:        current/public
+    ssl:         certbot
+    robots:      true
+
+# rails
+rails_apps:
+  - name:        spinet
+    environment: production
+    config_files:
+      - src: templates/app/master.key.j2
+        dest: shared/config/master.key
+        master_key: "{{ vault.master_key }}"
+
+      - src: templates/app/database.yml.j2
+        dest: shared/config/database.yml
+        database: "{{ vault.postgres }}"
