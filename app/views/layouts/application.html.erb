@@ -21,15 +21,21 @@
 
     <!-- nav bar -->
     <% unless current_page?(new_user_registration_path) %>
-      <div class="flex justify-between p-4 h-28">
-        <div class="px-4">
-          <img src="/images/logo.png" alt="The Spinet logo" class="max-w-40">
+      <div class="flex justify-between items-center h-28 px-12">
+        <div class="">
+          <% if current_page?(new_wheel_path) || request.path =~ %r{^/wheels/\d+$} || request.path =~ %r{^/wheels/show} %>
+            <%= link_to "<- Back", wheels_path, class: "btn-text" %>
+          <% else %>
+            <a href="<%= root_path %>">
+              <img src="/images/logo.png" alt="The Spinet logo" class="max-w-32">
+            </a>
+          <% end %>
         </div>
-        <div class="flex gap-4">
+        <div class="flex items-center gap-10">
           <% if user_signed_in? %>
             <!-- Logged in as <strong><%= current_user.email %></strong>.-->
-            <%= link_to "Profile", edit_user_registration_path, class: "btn-secondary"%>
-            <%= link_to "Logout", destroy_user_session_path, method: :delete, class: "btn-secondary" %>
+            <%= link_to "My Profile", edit_user_registration_path, class: "btn-text"%>
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn-text" %>
           <% end %>
         </div>
       </div>
