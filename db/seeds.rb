@@ -27,10 +27,10 @@ participants = Participant.create!([
 ])
 
 Result.create!([
-  {participant: participants.first, participant_name: participants.first.name, user: users.first, wheel: wheels.first},
-  {participant: participants.first, participant_name: participants.first.name, user: users.first, wheel: wheels.first},
-  {participant: participants.second, participant_name: participants.second.name, user: users.first, wheel: wheels.first},
-  {participant: participants.second, participant_name: participants.second.name, user: users.first, wheel: wheels.first}
+  {participant_name: participants.first.name, user: users.first, wheel: wheels.first},
+  {participant_name: participants.first.name, user: users.first, wheel: wheels.first},
+  {participant_name: participants.second.name, user: users.first, wheel: wheels.first},
+  {participant_name: participants.second.name, user: users.first, wheel: wheels.first}
 ])
 
 puts "Seeding complete!"
