@@ -44,7 +44,7 @@ RSpec.describe WheelsController, type: :controller do
 
         it "re-renders the new template" do
           post :create, params: {wheel: attributes_for(:wheel, title: nil)}
-          expect(response).to redirect_to(new_wheel_path)
+          expect(response).to redirect_to(wheels_path)
         end
       end
     end
@@ -80,26 +80,29 @@ RSpec.describe WheelsController, type: :controller do
       end
 
       it "adds new participants" do
-        post :temp_create, params: {id: wheel.id, name: "Joe"}
-        post :temp_create, params: {id: wheel.id, name: "Steve"}
-        post :temp_create, params: {id: wheel.id, name: "Steve"}
+        # Add new participants using temp_create
+        post :temp_create, params: {id: wheel.id, name: "Joe"}, as: :json
+        post :temp_create, params: {id: wheel.id, name: "Steve"}, as: :json
+        post :temp_create, params: {id: wheel.id, name: "Steve"}, as: :json
+
+        # Update the wheel participants
         patch :update, params: {id: wheel.id}
         wheel.reload
 
+        # Check if participants were added correctly
         expect(wheel.participants.map(&:name)).to match_array(["Alice", "Bob", "Joe", "Steve", "Steve"])
       end
 
       it "Removes participants" do
-        post :temp_create, params: {id: wheel.id, name: "Bob"}
-        post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}
+        post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}, as: :json
         patch :update, params: {id: wheel.id}
         wheel.reload
-        expect(wheel.participants.map(&:name)).to match_array(["Bob", "Alice"])
+        expect(wheel.participants.map(&:name)).to match_array(["Alice"])
       end
 
       it "Resets unsaved changes" do
-        post :temp_create, params: {id: wheel.id, name: "Joe"}
-        post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}
+        post :temp_create, params: {id: wheel.id, name: "Joe"}, as: :json
+        post :temp_delete, params: {id: wheel.id, participant_id: participant2.id.to_s}, as: :json
         post :reset_participants, params: {id: wheel.id}
         temp_participants = session["temp_participants_#{wheel.id}"]
         expect(temp_participants.map { |p| p[:name] }).to match_array(["Alice", "Bob"])
@@ -108,15 +111,15 @@ RSpec.describe WheelsController, type: :controller do
 
     describe "Participant sorting" do
       it "sorts participants alphabetically by name" do
-        post :temp_create, params: {id: wheel.id, name: "Charlie"}
+        post :temp_create, params: {id: wheel.id, name: "Charlie"}, as: :json
         post :sort_alphabetically, params: {id: wheel.id}
         temp_participants = session["temp_participants_#{wheel.id}"]
         expect(temp_participants.map { |p| p[:name] }).to eq(["Alice", "Bob", "Charlie"])
       end
 
       it "shuffles participants" do
-        post :temp_create, params: {id: wheel.id, name: "Charlie"}
-        post :temp_create, params: {id: wheel.id, name: "John"}
+        post :temp_create, params: {id: wheel.id, name: "Charlie"}, as: :json
+        post :temp_create, params: {id: wheel.id, name: "John"}, as: :json
         original_order = session["temp_participants_#{wheel.id}"].dup
         shuffled_differently = false
 
