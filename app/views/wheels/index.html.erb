@@ -1,30 +1,31 @@
-<div class="p-4">
-    <div class="flex flex-row justify-between">
-        <h1>Your Wheels</h1>
-        <div class="bg-gray-200 p-4 border border-gray-700">Profile</div>
-    </div>
+<div class="px-8">
+    <div class="flex flex-row h-[calc(100vh-07rem)] pb-8">
+        <!-- new wheel button -->
+        <%= link_to '+ New Wheel', new_wheel_path, class: 'flex items-center border border-gray-700 justify-center w-1/3 h-1/4 m-4 p-4 btn-text' %>
 
-    <div class="flex flex-row h-screen">
-        <%= link_to '+ New Wheel', new_wheel_path, class: 'w-1/3 h-1/5 m-4 border border-gray-700 text-center p-4' %>
-
-        <div class="w-2/3 bg-gray-200 m-4 border border-gray-700">
-            <!-- placeholder -->
-            <div class="h-min m-4 flex flex-row justify-between border border-gray-700 p-4">
-                <h3>Wheel Name</h3>
+        <div class="w-2/3 m-4 border border-gray-700 overflow-hidden overflow-y-auto">
+            <!-- example 
+            <div class="h-min m-8 flex flex-row justify-between items-center border border-gray-700 p-8 btn-text">
+                <h3 class="pb-0">Wheel Name</h3>
                 <p>Last Modified</p>
-                <div>Pfp</div>
-            </div>
-            <!-- actual wheel display -->
-            <% @wheels.each do |wheel| %>
-                <div class="h-min m-4 flex flex-row justify-between border border-gray-700 p-4">
-                    <h3><%= link_to wheel.name, wheel_path(wheel) %></h3>
-                    <p><%= wheel.updated_at %></p>
-                    <div>Pfp</div>
+            </div> -->
+
+            <!-- check if wheel is empty -->
+            <% if @wheels.empty? %>
+                <div class="h-min m-8 p-8">
+                    <p>Make a new wheel to get started!</p>
                 </div>
+            <% else %>
+                <!-- show user's wheels -->
+                <% @wheels.each do |wheel| %>
+                    <div class="h-min m-4 flex flex-row justify-between border border-gray-700 p-4">
+                        <h3><%= link_to wheel.name, wheel_path(wheel) %></h3>
+                        <p><%= wheel.updated_at %></p>
+                        <div>Pfp</div>
+                    </div>
+                <% end %>
             <% end %>
         </div>
-            
-        
     </div>
 </div>
 
