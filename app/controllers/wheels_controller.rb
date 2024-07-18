@@ -45,13 +45,13 @@ class WheelsController < ApplicationController
 
   def sort_alphabetically
     load_temp_participants
-    @temp_participants.sort_by! { |participant| participant[:name].downcase }
+    temp_participants.sort_by! { |participant| participant.downcase }
     save_temp_participants
   end
 
   def shuffle
     load_temp_participants
-    @temp_participants.shuffle!
+    temp_participants.shuffle!
     save_temp_participants
   end
 
@@ -79,7 +79,7 @@ class WheelsController < ApplicationController
   end
 
   def reset_participants
-    @temp_participants = wheel.participants.to_a
+    @temp_participants = wheel.participants.pluck(:name)
     save_temp_participants
   end
 
@@ -125,9 +125,8 @@ class WheelsController < ApplicationController
 
   def update_participants
     # Creates participants that are not in wheel.participants already
-    wheel.participants.destroy_all
-
     load_temp_participants
+    wheel.participants.destroy_all
     temp_participants.each do |participant|
       wheel.participants.create(name: participant)
     end
