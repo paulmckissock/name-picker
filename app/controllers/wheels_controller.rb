@@ -21,19 +21,17 @@ class WheelsController < ApplicationController
       user: current_user,
       participant_name: params[:participant_name].to_s
     )
-    
+
     if @result.save
       respond_to do |format|
-
         format.json { render json: @result }
       end
     else
-      byebug
       respond_to do |format|
         format.json { render json: @result.errors, status: :unprocessable_entity }
       end
     end
-  end 
+  end
 
   def create
     @wheel = Wheel.new(wheel_params)
@@ -65,7 +63,7 @@ class WheelsController < ApplicationController
   def temp_create
     load_temp_participants
     temp_id = (temp_participants.map { |p| p[:id] }.max || 0) + 1
-    participant = { id: temp_id, name: params[:name], wheel_id: wheel.id, created_at: Time.now, updated_at: Time.now }
+    participant = {id: temp_id, name: params[:name], wheel_id: wheel.id, created_at: Time.now, updated_at: Time.now}
     temp_participants << participant
     save_temp_participants
     respond_to do |format|
@@ -80,7 +78,6 @@ class WheelsController < ApplicationController
     respond_to do |format|
       format.json { render json: temp_participants.to_json }
     end
-
   end
 
   def reset_participants
