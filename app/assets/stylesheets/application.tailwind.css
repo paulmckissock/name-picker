@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-offWhite;
+    @apply bg-off-white;
   }
   h1 {
     @apply text-3xl pb-4;
@@ -21,7 +21,7 @@
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    @apply w-full bg-offWhite border-offWhite border-b-gray-400 focus:border-blue-500 focus:ring-0;
+    @apply w-full bg-off-white border-off-white border-b-gray-400 focus:border-blue-500 focus:ring-0;
   }
 }
 
