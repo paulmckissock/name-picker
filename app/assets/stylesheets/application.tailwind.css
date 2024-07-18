@@ -67,6 +67,7 @@
   }
   .active-tab {
 <<<<<<< HEAD
+<<<<<<< HEAD
     @apply border border-off-white border-b-yellow-500 px-4 py-2 cursor-pointer;
   }
   .inactive-tab {
@@ -77,5 +78,11 @@
   .inactive-tab {
     @apply px-4 py-2;
 >>>>>>> d427180 ([#13] Prettier wheel page)
+=======
+    @apply border border-off-white border-b-yellow-500 px-4 py-2 cursor-pointer;
+  }
+  .inactive-tab {
+    @apply px-4 py-2 cursor-pointer;
+>>>>>>> 6b8bd9e ([n/a] Small fixes)
   }
 }
