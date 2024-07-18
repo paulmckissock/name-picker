@@ -1,38 +1,33 @@
-<div>
-     <div class="flex items-center justify-center h-[calc(100vh-07rem)]">
-        <div class="p-10 gap-8 w-5/12">
-          <!-- Login form -->
-          <h3 class="py-6">Welcome Back</h3>
-          <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-            <div class="field">
-              <%= f.label :email %><br />
-              <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-            </div>
+<div class="flex items-center justify-center h-[calc(100vh-07rem)]">
+  <div class="p-10 gap-8 w-5/12">
+    <!-- Login form -->
+    <h3 class="py-6">Welcome Back</h3>
+    <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+      <div class="field">
+        <%= f.label :email %><br />
+        <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
+      </div>
 
-            <div class="field">
-              <%= f.label :password %><br />
-              <%= f.password_field :password, autocomplete: "current-password" %>
-            </div>
+      <div class="field">
+        <%= f.label :password %><br />
+        <%= f.password_field :password, autocomplete: "current-password" %>
+      </div>
 
-            <% if devise_mapping.rememberable? %>
-              <div class="field">
-                <%= f.check_box :remember_me %>
-                <%= f.label :remember_me %>
-              </div>
-            <% end %>
-
-            <div class="py-6">
-              <%= f.submit "Log In", class: "btn-primary actions" %>
-            </div>
-          <% end %>
-
-          <div class="flex flex-row gap-3">
-            <p>Don't have an account?</p> 
-            <%= render "devise/shared/links" %>
-          </div>
+      <% if devise_mapping.rememberable? %>
+        <div class="field">
+          <%= f.check_box :remember_me %>
+          <%= f.label :remember_me %>
         </div>
+      <% end %>
+
+      <div class="py-6">
+        <%= f.submit "Log In", class: "btn-primary actions" %>
+      </div>
+    <% end %>
+
+    <div class="flex flex-row gap-3">
+      <p>Don't have an account?</p> 
+      <%= render "devise/shared/links" %>
     </div>
+  </div>
 </div>
-
-
-
