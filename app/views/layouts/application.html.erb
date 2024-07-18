@@ -21,7 +21,7 @@
 
     <!-- nav bar -->
     <% unless current_page?(new_user_registration_path) %>
-      <div class="flex justify-between items-center h-28 px-12">
+      <div id="navbar" class="flex justify-between items-center h-28 px-12">
         <div class="">
           <% if current_page?(new_wheel_path) || request.path =~ %r{^/wheels/\d+$} || request.path =~ %r{^/wheels/show} %>
             <%= link_to "<- Back", wheels_path, class: "btn-text" %>
