@@ -4,6 +4,9 @@
 </div>
 
 <div class="h-screen flex flex-row">
+    <div class="absolute left-20 top-10">
+        <img id="spinet" src="/images/logo.png" class="hidden max-w-60" alt="The Spinet logo" >
+    </div>
     <div id="wheelHalf" class="w-1/2 flex items-center justify-center">
         <div class="p-20">
             <!-- The wheel -->
@@ -80,12 +83,14 @@
     const wheelHalf = document.getElementById('wheelHalf');
     const editHalf = document.getElementById('editHalf');
     const exitBtn = document.getElementById('exitBtn');
+    const spinet = document.getElementById('spinet');
     
     function presentMode() {
         navbar.classList.add('hidden');
         wheelHeading.classList.add('hidden');
         editHalf.classList.add('hidden');
         exitBtn.classList.remove('hidden');
+        spinet.classList.remove('hidden');
         wheelHalf.classList.remove('w-1/2');
         wheelHalf.classList.add('w-full');
     }
@@ -95,6 +100,9 @@
         wheelHeading.classList.remove('hidden');
         editHalf.classList.remove('hidden');
         exitBtn.classList.add('hidden');
+        spinet.classList.add('hidden');
+        wheelHalf.classList.remove('w-full');
+        wheelHalf.classList.add('w-1/2');
     }
 
     presentBtn.addEventListener('click', presentMode);
