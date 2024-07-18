@@ -24,7 +24,7 @@
                 </div>
                 <div id="viewMode" class="hidden p-4">
                 <h2 class="text-lg font-bold">Past Results</h2>
-                <div class="flex flex-wrap gap-2">
+                <div class="flex flex-wrap gap-2" id="past-results">
                     <% @results.each do |result| %>
                     <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
                         <p><%= result.participant_name %></p>
@@ -270,24 +270,30 @@
 
 
     createResult: function (name, wheel_id) {
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    $.ajax({
-        type: "POST",
-        url: `/wheels/${wheel_id}/create_result`,
-        data: { participant_name: name},
-        headers: {
-        'X-CSRF-Token': csrfToken
-        },
-        success: function(response) {
-        console.log("Result created:", response);
-        // Update the UI as needed
-        },
-        error: function(error) {
-        console.error("Error creating result:", error);
-        }
+        $.ajax({
+            type: "POST",
+            url: `/wheels/${wheel_id}/create_result`,
+            data: { participant_name: name},
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            success: function(response) {
+                console.log("Result created:", response);
+                // Update the UI as needed
+                
+                document.getElementById("past-results").insertAdjacentHTML("afterbegin",`
+                    <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
+                        <p>${name}</p>
+                    </div>
+                 `);
+            },
+            error: function(error) {
+                console.error("Error creating result:", error);
+            }
         });
-        },
+    },
 
 
     showModal: function (name, wheel_id) {
