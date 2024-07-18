@@ -130,14 +130,14 @@ class WheelsController < ApplicationController
     # Creates participants that are not in wheel.participants already
     load_temp_participants
     temp_participants.each do |participant|
-      unless wheel.participants.exists?(id: participant.id)
-        wheel.participants.build(name: participant.name)
+      unless wheel.participants.exists?(id: participant[:id])
+        wheel.participants.create(name: participant[:name], wheel: wheel)
       end
     end
 
     # Deletes participants that are not in temp_participants
     wheel.participants.each do |participant|
-      unless temp_participants.any? { |temp_participant| temp_participant["id"] == participant.id }
+      unless temp_participants.any? { |temp_participant| temp_participant[:id] == participant.id }
         participant.destroy
       end
     end
