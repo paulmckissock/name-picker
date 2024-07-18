@@ -48,7 +48,10 @@
   }
   .btn-secondary {
     @apply border border-yellow-500 text-gray-900 no-underline px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-gray-700;
+<<<<<<< HEAD
     @apply border border-yellow-500 text-gray-900 no-underline px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-gray-700;
+=======
+>>>>>>> d427180 ([#13] Prettier wheel page)
   }
   .alert {
     @apply p-4 flex items-center;
@@ -63,9 +66,16 @@
     @apply pb-3;
   }
   .active-tab {
+<<<<<<< HEAD
     @apply border border-off-white border-b-yellow-500 px-4 py-2 cursor-pointer;
   }
   .inactive-tab {
     @apply px-4 py-2 cursor-pointer;
+=======
+    @apply border border-yellow-500 px-4 py-2;
+  }
+  .inactive-tab {
+    @apply px-4 py-2;
+>>>>>>> d427180 ([#13] Prettier wheel page)
   }
 }
