@@ -1,4 +1,7 @@
-<h1>Wheel</h1>
+<div class="flex flex-row justify-between px-8">
+            <h1>Wheel Title</h1>
+            <button class="btn-primary">Present</button>
+        </div>
 
 <div class="h-screen flex flex-row">
     <div class="w-1/2 flex items-center justify-center">
@@ -16,8 +19,8 @@
           <!-- Participants tabs -->
             <div class="relative shadow-lg w-96 p-4">
                 <div class="absolute -top-10 left-0 flex space-x-2">
-                    <div id="editTab" class="tab bg-blue-500 text-white px-4 py-2 rounded-t-lg">Edit</div>
-                    <div id="viewTab" class="tab bg-gray-200 px-4 py-2 rounded-t-lg">View</div>
+                    <div id="editTab" class="active-tab">Edit</div>
+                    <div id="viewTab" class="inactive-tab">View</div>
                 </div>
                 <div id="viewMode" class="hidden p-4">
                 <h2 class="text-lg font-bold">Past Results</h2>
@@ -36,11 +39,11 @@
                 </div>
                 <div class="flex">
                     <input id="participantInput" type="text" class="w-full p-2 border border-gray-300 rounded-l" placeholder="Input a participant">
-                    <button id="addParticipantBtn" class="bg-blue-500 text-white px-4 py-2 rounded-r">Enter</button>
+                    <button id="addParticipantBtn" class="btn-primary">Enter</button>
                 </div>
                 </div>
             </div>
-            <button class="btn-primary mt-4">Save</button>
+            <button class="btn-secondary mt-4">Save</button>
         </div>
     </div>
 </div>
@@ -148,19 +151,19 @@
     });
 
     viewTab.addEventListener('click', () => {
-      viewTab.classList.add('bg-blue-500', 'text-white');
-      viewTab.classList.remove('bg-gray-200', 'text-black');
-      editTab.classList.add('bg-gray-200', 'text-black');
-      editTab.classList.remove('bg-blue-500', 'text-white');
+      viewTab.classList.add('active-tab');
+      viewTab.classList.remove('inactive-tab');
+      editTab.classList.add('inactive-tab');
+      editTab.classList.remove('active-tab');
       viewMode.classList.remove('hidden');
       editMode.classList.add('hidden');
     });
 
     editTab.addEventListener('click', () => {
-      editTab.classList.add('bg-blue-500', 'text-white');
-      editTab.classList.remove('bg-gray-200', 'text-black');
-      viewTab.classList.add('bg-gray-200', 'text-black');
-      viewTab.classList.remove('bg-blue-500', 'text-white');
+      editTab.classList.add('active-tab');
+      editTab.classList.remove('inactive-tab');
+      viewTab.classList.add('inactive-tab');
+      viewTab.classList.remove('active-tab');
       viewMode.classList.add('hidden');
       editMode.classList.remove('hidden');
     });
