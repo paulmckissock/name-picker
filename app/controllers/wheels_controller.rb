@@ -62,9 +62,7 @@ class WheelsController < ApplicationController
 
   def temp_create
     load_temp_participants
-    temp_id = (temp_participants.map { |p| p[:id] }.max || 0) + 1
-    participant = {id: temp_id, name: params[:name], wheel_id: wheel.id, created_at: Time.now, updated_at: Time.now}
-    temp_participants << participant
+    temp_participants << params[:name]
     save_temp_participants
     respond_to do |format|
       format.json { render json: temp_participants.to_json }
@@ -73,7 +71,7 @@ class WheelsController < ApplicationController
 
   def temp_delete
     load_temp_participants
-    temp_participants.reject! { |p| p["id"].to_s == params[:participant_id] }
+    temp_participants.delete_at(temp_participants.index(params[:name]))
     save_temp_participants
     respond_to do |format|
       format.json { render json: temp_participants.to_json }
@@ -87,7 +85,6 @@ class WheelsController < ApplicationController
 
   def update
     update_participants
-
     if wheel.save
       flash[:notice] = "Participants updated successfully."
     else
@@ -111,7 +108,7 @@ class WheelsController < ApplicationController
   end
 
   def temp_participants
-    @temp_participants ||= wheel.participants.to_a
+    @temp_participants ||= wheel.participants.pluck(:name)
   end
 
   def temp_participants_key
@@ -132,7 +129,7 @@ class WheelsController < ApplicationController
 
     load_temp_participants
     temp_participants.each do |participant|
-      wheel.participants.create(name: participant["name"])
+      wheel.participants.create(name: participant)
     end
   end
 end

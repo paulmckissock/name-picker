@@ -74,11 +74,10 @@
     const editParticipantsDiv = document.getElementById('editParticipants');
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
-    let participants = <%= raw @temp_participants.map { |p| { id: p["id"], name: p["name"] } }.to_json %>;
+    let participants = <%= raw @temp_participants.to_json %>;
 
-    
     function updateParticipantList() {
-    let participants = <%= raw @temp_participants.map { |p| { id: p["id"], name: p["name"] } }.to_json %>;
+    let participants = <%= raw @temp_participants.to_json %>;
     refreshParticipantList(participants);
     }
     function refreshParticipantList(participants){
@@ -87,7 +86,7 @@
       participants.forEach(participant => {
         const participantElement = document.createElement('div');
         participantElement.className = 'rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2';
-        participantElement.innerHTML = `<p>${participant.name}</p><button onclick="removeParticipant('${participant.id}')">x</button>`;
+        participantElement.innerHTML = `<p>${participant}</p><button onclick="removeParticipant('${participant}')">x</button>`;
         editParticipantsDiv.appendChild(participantElement);
       });
     }
@@ -103,9 +102,7 @@
                 'X-CSRF-Token': csrfToken
             },
             success: function(response) {
-                console.log(response)
-                wheel.segments = response.map((tp) => tp.name);
-                wheel.participant_ids = response.map((tp) => tp.id);
+                wheel.segments = response;
                 wheel.update();
                 
                 refreshParticipantList(response);
@@ -118,11 +115,11 @@
       }
     }
 
-    function removeParticipant(participant_id) {
+    function removeParticipant(participant_name) {
       $.ajax({
             type: "POST",
             url: `/wheels/${wheel.id}/temp_delete`,
-            data: { participant_id: participant_id },
+            data: { name: participant_name },
             headers: {
                 'X-CSRF-Token': csrfToken
             },
@@ -130,8 +127,7 @@
                 // Hide modal after removing participant
                 modal.classList.add("hidden");
                 
-                wheel.segments = response.map((tp) => tp.name);
-                wheel.participant_ids = response.map((tp) => tp.id);
+                wheel.segments = response;
                 wheel.update();
                 refreshParticipantList(response);
                 
@@ -266,21 +262,20 @@
             (wheel.angleCurrent / (Math.PI * 2)) * wheel.segments.length
             ) - 1;
         // Now draw the winning name
-        var name = wheel.segments[i];
-        var winner_id = wheel.participant_ids[i];
-        wheel.createResult(name, winner_id, wheel.id);
-        wheel.showModal(name, winner_id, wheel.id);
+        var name = wheel.segments[i]
+        wheel.createResult(name, wheel.id);
+        wheel.showModal(name, wheel.id);
         }
     },
 
 
-    createResult: function (name, winner_id, wheel_id) {
+    createResult: function (name, wheel_id) {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     $.ajax({
         type: "POST",
         url: `/wheels/${wheel_id}/create_result`,
-        data: { participant_name: name, participant_id: winner_id},
+        data: { participant_name: name},
         headers: {
         'X-CSRF-Token': csrfToken
         },
@@ -295,7 +290,7 @@
         },
 
 
-    showModal: function (name, winner_id, wheel_id) {
+    showModal: function (name, wheel_id) {
         // Open modal and display winner's name
         var modal = document.getElementById("modal");
         var winner = document.getElementById("winner");
@@ -309,7 +304,7 @@
             $.ajax({
             type: "POST",
             url: `/wheels/${wheel_id}/temp_delete`,
-            data: { participant_id: winner_id },
+            data: { name: name },
             headers: {
                 'X-CSRF-Token': csrfToken
             },
@@ -317,8 +312,7 @@
                 // Hide modal after removing participant
                 modal.classList.add("hidden");
                 
-                wheel.segments = response.map((tp) => tp.name);
-                wheel.participant_ids = response.map((tp) => tp.id);
+                wheel.segments = response;
                 wheel.update();
                 updateParticipantList();
                 refreshParticipantList(response);
@@ -373,8 +367,10 @@
         var colorLen = colors.length;
         // Generate a color cache (so we have consistant coloring)
         var seg_color = new Array();
-        for (var i = 0; i < len; i++)
-        seg_color.push(colors[segments[i].hashCode().mod(colorLen)]);
+        for (var i = 0; i < len; i++){
+            seg_color.push(colors[segments[i].hashCode().mod(colorLen)]);
+        }
+        
         wheel.seg_color = seg_color;
         wheel.draw();
     },
@@ -474,8 +470,7 @@
     window.onload = function () {
         wheel.init();
 
-        wheel.segments = <%= raw @temp_participants.map { |p| p["name"] }.to_json %>;
-        wheel.participant_ids = <%= raw @temp_participants.map { |p| p["id"] }.to_json %>;
+        wheel.segments = <%= raw @temp_participants.to_json %>;
         wheel.id = <%= @wheel.id %>;
 
         wheel.update();
