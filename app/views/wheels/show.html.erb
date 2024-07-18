@@ -1,18 +1,21 @@
-<div class="flex flex-row justify-between px-12">
-            <h1>Wheel Title</h1>
-            <button onclick="wheel.showPresentModal()" id="presentBtn" class="btn-primary">Present</button>
-        </div>
+<div id="wheelHeading" class="flex flex-row justify-between px-12">
+    <h1>Wheel Title</h1>
+    <button onclick="wheel.showPresentModal()" id="presentBtn" class="btn-primary">Present</button>
+</div>
 
 <div class="h-screen flex flex-row">
-    <div class="w-1/2 flex items-center justify-center">
+    <div id="wheelHalf" class="w-1/2 flex items-center justify-center">
         <div class="p-20">
             <!-- The wheel -->
             <div id="wheel">
                 <canvas id="canvas" width="610" height="600"></canvas>
             </div>
+            <div class="flex justify-end">
+                <button id="exitBtn" class="btn-secondary hidden">Exit</button>
+            </div>
         </div>
     </div>
-    <div class="w-1/2 flex justify-center">
+    <div id="editHalf" class="w-1/2 flex justify-center">
         <!-- Editing block -->
         <div class="pt-28 gap-8">
             <div class="relative w-96 pt-6">
@@ -67,19 +70,37 @@
   </div>
 </div>
 
-<!-- The present modal -->
-<div id="presentModal" class="hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-  <div class="bg-off-white shadow-lg p-6 w-full">
-    <!-- The present wheel -->
-        <div id="presentWheel">
-            <canvas id="presentCanvas" width="610" height="600"></canvas>
-        </div>
-    <button id="exitBtn" class="btn-secondary">Exit</button>
-  </div>
-</div>
-
 
 <script src="https://code.jquery.com/jquery-1.6.2.min.js" integrity="sha256-0W0HoDU0BfzslffvxQomIbx0Jfml6IlQeDlvsNxGDE8=" crossorigin="anonymous"></script>
+
+<!-- Present mode functionality -->
+<script>
+    const navbar = document.getElementById('navbar');
+    const wheelHeading = document.getElementById('wheelHeading');
+    const wheelHalf = document.getElementById('wheelHalf');
+    const editHalf = document.getElementById('editHalf');
+    const exitBtn = document.getElementById('exitBtn');
+    
+    function presentMode() {
+        navbar.classList.add('hidden');
+        wheelHeading.classList.add('hidden');
+        editHalf.classList.add('hidden');
+        exitBtn.classList.remove('hidden');
+        wheelHalf.classList.remove('w-1/2');
+        wheelHalf.classList.add('w-full');
+    }
+
+    function exitPresentMode() {
+        navbar.classList.remove('hidden');
+        wheelHeading.classList.remove('hidden');
+        editHalf.classList.remove('hidden');
+        exitBtn.classList.add('hidden');
+    }
+
+    presentBtn.addEventListener('click', presentMode);
+    exitBtn.addEventListener('click', exitPresentMode);
+</script>
+
 
 <!-- Participants edit + view functionality -->
 <script>
@@ -347,24 +368,6 @@
                 });
             };
             document.getElementById("closeBtn").onclick = function() {
-                modal.classList.add("hidden");
-            };
-        },
-        
-        showPresentModal: function () {
-            // Open modal and display just the wheel
-            var modal = document.getElementById("presentModal");
-            modal.classList.remove("hidden");
-
-            // Get the context of the new canvas
-            var presentCanvas = document.getElementById("presentCanvas");
-            var presentContext = presentCanvas.getContext("2d");
-
-            // Draw the wheel on the new canvas
-            wheel.drawWheelOnCanvas(presentContext);
-
-            // Event listeners for modal buttons
-            document.getElementById("exitBtn").onclick = function() {
                 modal.classList.add("hidden");
             };
         },
