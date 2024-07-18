@@ -32,8 +32,11 @@
                     <button id="closeBtn" class="btn-text"><span class="sr-only">Close</span>X</button>
                 </div>
                 <div class="flex items-center">
-                    <input id="participantInput" type="text" class="" placeholder="My Wheel">
-                    <button id="addParticipantBtn" class="btn-text px-4"><span class="sr-only">Save</span>--></button>
+                    <form action="/wheels" method="post">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+                    <input id="participantInput" type="text" name="wheel[title]" class="" placeholder="My Wheel">
+                    <button id="addParticipantBtn" type="submit" class="btn-text px-4"><span class="sr-only">Save</span>Save</button>
+                    </form>
                 </div>
             </div>
         </div>
