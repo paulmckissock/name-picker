@@ -102,7 +102,7 @@ RSpec.describe WheelsController, type: :controller do
 
       it "Resets unsaved changes" do
         post :temp_create, params: {id: wheel.id, name: "Joe"}, as: :json
-        post :temp_delete, params: {id: wheel.id, name: "Bob" }, as: :json
+        post :temp_delete, params: {id: wheel.id, name: "Bob"}, as: :json
         post :reset_participants, params: {id: wheel.id}
         temp_participants = session["temp_participants_#{wheel.id}"]
         expect(temp_participants).to eq(["Alice", "Bob"])
