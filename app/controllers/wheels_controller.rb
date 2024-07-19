@@ -47,12 +47,19 @@ class WheelsController < ApplicationController
     load_temp_participants
     temp_participants.sort_by! { |participant| participant.downcase }
     save_temp_participants
+    
+    respond_to do |format|
+      format.json { render json: temp_participants.to_json }
+    end
   end
 
   def shuffle
     load_temp_participants
     temp_participants.shuffle!
     save_temp_participants
+    respond_to do |format|
+      format.json { render json: temp_participants.to_json }
+    end
   end
 
   def destroy
