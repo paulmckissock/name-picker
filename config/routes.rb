@@ -10,6 +10,6 @@ Rails.application.routes.draw do
       post :reset_participants
     end
   end
-  
+
   resources :results, only: [:create]
 end
