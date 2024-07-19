@@ -30,13 +30,12 @@
                     </div>
                     <!-- Sort buttons -->
                     <div id="sortButtons" class="flex gap-4 py-2">
-                        <%= button_to shuffle_wheel_path(@wheel), class: 'btn-text', method: :post do %>
+                        <button id="shuffleBtn" class="btn-text">
                             <img src="/images/icons/shuffle.svg" class="w-6 fill-current" alt="Shuffle">
-                        <% end %>
-                        
-                        <%= button_to sort_alphabetically_wheel_path(@wheel), class: 'btn-text', method: :post do %>
+                        </button>
+                        <button id="alphBtn" class="btn-text">
                             <img src="/images/icons/sort.svg" class="w-6 fill-current" alt="Sort">
-                        <% end %>
+                        </button>
                     </div>
                 </div>
                 <!-- View mode -->
@@ -131,6 +130,8 @@
     const editMode = document.getElementById('editMode');
     const participantInput = document.getElementById('participantInput');
     const addParticipantBtn = document.getElementById('addParticipantBtn');
+    const shuffleBtn = document.getElementById('shuffleBtn');
+    const alphBtn = document.getElementById('alphBtn');
     var participantName = participantInput.value.trim();
     const editParticipantsDiv = document.getElementById('editParticipants');
     const sortButtons = document.getElementById('sortButtons');
@@ -202,6 +203,54 @@
         });
       updateParticipantList();
     }
+
+    function shuffleParticipants() {
+      $.ajax({
+            type: "POST",
+            url: `/wheels/${wheel.id}/shuffle`,
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            success: function(response) {
+                // Hide modal after removing participant
+                modal.classList.add("hidden");
+                
+                wheel.segments = response;
+                wheel.update();
+                refreshParticipantList(response);
+                
+            },
+            error: function(error) {
+                console.error("Error shuffling participants:", error);
+            }
+        });
+      updateParticipantList();
+    }
+    function sortParticipantsAlphabetically() {
+      $.ajax({
+            type: "POST",
+            url: `/wheels/${wheel.id}/sort_alphabetically`,
+            headers: {
+                'X-CSRF-Token': csrfToken
+            },
+            success: function(response) {
+                // Hide modal after removing participant
+                modal.classList.add("hidden");
+                
+                wheel.segments = response;
+                wheel.update();
+                refreshParticipantList(response);
+                
+            },
+            error: function(error) {
+                console.error("Error shuffling participants:", error);
+            }
+        });
+      updateParticipantList();
+    }
+
+    shuffleBtn.addEventListener('click', shuffleParticipants);
+    alphBtn.addEventListener('click', sortParticipantsAlphabetically);
 
     addParticipantBtn.addEventListener('click', addParticipant);
     participantInput.addEventListener('keydown', (e) => {

@@ -17,7 +17,6 @@ RSpec.describe WheelsController, type: :controller do
 
     it "should show wheel" do
       get :show, params: {id: wheel.id}
-
       expect(response.code).to eq("200")
     end
 
@@ -112,7 +111,7 @@ RSpec.describe WheelsController, type: :controller do
     describe "Participant sorting" do
       it "sorts participants alphabetically by name" do
         post :temp_create, params: {id: wheel.id, name: "Charlie"}, as: :json
-        post :sort_alphabetically, params: {id: wheel.id}
+        post :sort_alphabetically, params: {id: wheel.id}, as: :json
         temp_participants = session["temp_participants_#{wheel.id}"]
         expect(temp_participants).to eq(["Alice", "Bob", "Charlie"])
       end
@@ -125,7 +124,7 @@ RSpec.describe WheelsController, type: :controller do
 
         # Checks five times to lower the chance that the shuffle returns the same order and the test fails
         5.times do
-          post :shuffle, params: {id: wheel.id}
+          post :shuffle, params: {id: wheel.id}, as: :json
           temp_participants = session["temp_participants_#{wheel.id}"]
           if temp_participants != original_order
             shuffled_differently = true
