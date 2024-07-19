@@ -251,7 +251,6 @@
 
     shuffleBtn.addEventListener('click', shuffleParticipants);
     alphBtn.addEventListener('click', sortParticipantsAlphabetically);
-
     addParticipantBtn.addEventListener('click', addParticipant);
     participantInput.addEventListener('keydown', (e) => {
       if (e.key === 'Enter') {
@@ -619,9 +618,9 @@
             ctx.textAlign = "center";
             ctx.font = "1.4em Arial";
             for (var i = 1; i <= len; i++) {
-            var angle = PI2 * (i / len) + angleCurrent;
-            wheel.drawSegment(i - 1, lastAngle, angle);
-            lastAngle = angle;
+                var angle = PI2 * (i / len) + angleCurrent;
+                wheel.drawSegment(i - 1, lastAngle, angle);
+                lastAngle = angle;
             }
             // Draw a center circle
             ctx.beginPath();
