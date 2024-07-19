@@ -75,8 +75,40 @@
   </div>
 </div>
 
+<audio id="winAudio" src="/audios/game-win.wav"></audio>
+
+
+
 
 <script src="https://code.jquery.com/jquery-1.6.2.min.js" integrity="sha256-0W0HoDU0BfzslffvxQomIbx0Jfml6IlQeDlvsNxGDE8=" crossorigin="anonymous"></script>
+
+<!-- Confetti script -->
+<script>
+    function makeConfetti() {
+        let duration = 15 * 1000;
+        let animationEnd = Date.now() + duration;
+        let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+        function randomInRange(min, max) {
+        return Math.random() * (max - min) + min;
+        }
+
+        let interval = setInterval(function() {
+        let timeLeft = animationEnd - Date.now();
+
+        if (timeLeft <= 0) {
+            return clearInterval(interval);
+        }
+
+        let particleCount = 50 * (timeLeft / duration);
+        // since particles fall down, start a bit higher than random
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+        confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+        }, 250);
+
+    }
+    
+</script>
 
 <!-- Present mode functionality -->
 <script>
@@ -218,6 +250,8 @@
     updateParticipantList();
   </script>
 
+<!-- Confetti library -->
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
 
 <!-- Wheel functionality -->
 <script>
@@ -302,7 +336,7 @@
                 wheel.spinStart = new Date().getTime();
                 wheel.maxSpeed = Math.PI / (Math.random() * (6 - 16) + 16); // Randomly vary how hard the spin is
                 wheel.frames = 0;
-                //wheel.sound.play();
+                wheel.spinSound.play();
                 wheel.timerHandle = setInterval(wheel.onTimerTick, wheel.timerDelay);
             }
         },
@@ -322,6 +356,8 @@
                 progress = 1 - Math.pow(1 - progress, 3); // Cubic easing out
                 wheel.angleDelta = wheel.maxSpeed * Math.sin((progress * Math.PI) / 2 + Math.PI / 2);
                 if (progress >= 1) {
+                    wheel.spinSound.pause();
+                    wheel.spinSound.currentTime = 0;
                     finished = true;
                 }
             }
@@ -371,6 +407,10 @@
         },
 
         showModal: function (name, wheel_id) {
+            // Play winning audio
+            var winSound = document.getElementById("winAudio");
+            winSound.play();
+
             // Open modal and display winner's name
             var modal = document.getElementById("modal");
             var winner = document.getElementById("winner");
@@ -405,6 +445,26 @@
             document.getElementById("closeBtn").onclick = function() {
                 modal.classList.add("hidden");
             };
+            // Confetti!
+            let duration = 4000;
+            let animationEnd = Date.now() + duration;
+            let defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) {
+                return Math.random() * (max - min) + min;
+            }
+
+            let interval = setInterval(function() {
+                let timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                let particleCount = 50 * (timeLeft / duration);
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
+                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+            }, 250);
         },
 
         init: function (optionList) {
@@ -422,9 +482,9 @@
 
         // Not functional right now
         initAudio: function () {
-            var sound = document.createElement("audio");
-            sound.setAttribute("src", "http://bramp.net/javascript/wheel.mp3");
-            wheel.sound = sound;
+            var spinSound = document.createElement("audio");
+            spinSound.setAttribute("src", "/audios/spinning.mp3");
+            wheel.spinSound = spinSound;
         },
 
         initCanvas: function () {
