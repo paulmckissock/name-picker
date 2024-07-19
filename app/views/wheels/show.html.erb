@@ -1,8 +1,8 @@
+<!-- Title and present button -->
 <div id="wheelHeading" class="flex flex-row justify-between px-12">
     <h1 class="pb-0"><%= @wheel.title %></h1>
     <button id="presentBtn" class="btn-primary">Present</button>
 </div>
-
 <div class="h-screen flex flex-row">
     <div class="absolute left-20 top-8">
         <img id="spinet" src="/images/logo.png" class="hidden max-w-60" alt="The Spinet logo" >
@@ -40,26 +40,26 @@
                 </div>
                 <!-- View mode -->
                 <div id="viewMode" class="hidden py-2">
-                <div class="flex flex-wrap gap-2" id="past-results">
-                    <% @results.each do |result| %>
-                    <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
-                        <p><%= result.participant_name %></p>
+                    <!-- Past winners -->
+                    <div class="flex flex-wrap gap-2" id="past-results">
+                        <% @results.each do |result| %>
+                            <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
+                                <p><%= result.participant_name %></p>
+                            </div>
+                        <% end %>
                     </div>
-                    <% end %>
-                </div>
                 </div>
                 <!-- Edit mode -->
                 <div id="editMode" class="py-2">
-                    <div id="editParticipants" class="flex flex-wrap gap-2 pb-4">
-                        <!-- Participants will be dynamically added here -->
+                    <!-- Participants dynamically added here -->
+                    <div id="editParticipants" class="flex flex-wrap gap-2 pb-4"></div>
+                    <!-- Participants input -->
+                    <div class="flex items-center pt-4">
+                        <input id="participantInput" type="text" placeholder="Input a participant">
+                        <button id="addParticipantBtn" class="btn-text pl-4">
+                            <img src="/images/icons/right.svg" class="w-8 fill-current" alt="Add">
+                        </button>
                     </div>
-                <!-- Participants input -->
-                <div class="flex items-center pt-4">
-                    <input id="participantInput" type="text" placeholder="Input a participant">
-                    <button id="addParticipantBtn" class="btn-text pl-4">
-                        <img src="/images/icons/right.svg" class="w-8 fill-current" alt="Add">
-                    </button>
-                </div>
                 </div>
             </div>
             <%= button_to "Save", wheel_path(@wheel), method: :patch, class: "btn-secondary mt-8" %>
@@ -73,30 +73,26 @@
     <h2 class="text-2xl font-bold mb-4">Winner</h2>
     <p id="winner" class="mb-4"></p>
     <div class="flex justify-end space-x-4">
-      <button id="closeBtn" class="btn-secondary mb-0">Close</button>
-      <button id="removeBtn" class="btn-primary mb-0">Remove</button>
+        <button id="closeBtn" class="btn-secondary mb-0">Close</button>
+        <button id="removeBtn" class="btn-primary mb-0">Remove</button>
     </div>
   </div>
 </div>
-
 <audio id="winAudio" src="/audios/game-win.wav"></audio>
 
 
-
-
+<!-- Javascript -->
 <script src="https://code.jquery.com/jquery-1.6.2.min.js" integrity="sha256-0W0HoDU0BfzslffvxQomIbx0Jfml6IlQeDlvsNxGDE8=" crossorigin="anonymous"></script>
 
-
-
-<!-- Present mode functionality -->
+<!-- Modals and tabs -->
 <script>
+    // Present mode functionality
     const navbar = document.getElementById('navbar');
     const wheelHeading = document.getElementById('wheelHeading');
     const wheelHalf = document.getElementById('wheelHalf');
     const editHalf = document.getElementById('editHalf');
     const exitBtn = document.getElementById('exitBtn');
     const spinet = document.getElementById('spinet');
-    
     function presentMode() {
         navbar.classList.add('hidden');
         wheelHeading.classList.add('hidden');
@@ -106,7 +102,6 @@
         wheelHalf.classList.remove('w-1/2');
         wheelHalf.classList.add('w-full');
     }
-
     function exitPresentMode() {
         navbar.classList.remove('hidden');
         wheelHeading.classList.remove('hidden');
@@ -116,14 +111,10 @@
         wheelHalf.classList.remove('w-full');
         wheelHalf.classList.add('w-1/2');
     }
-
     presentBtn.addEventListener('click', presentMode);
     exitBtn.addEventListener('click', exitPresentMode);
-</script>
 
-
-<!-- Participants edit + view functionality -->
-<script>
+    // Participants edit + view functionality
     const viewTab = document.getElementById('viewTab');
     const editTab = document.getElementById('editTab');
     const viewMode = document.getElementById('viewMode');
@@ -136,17 +127,15 @@
     const editParticipantsDiv = document.getElementById('editParticipants');
     const sortButtons = document.getElementById('sortButtons');
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    var participantName = participantInput.value.trim();
 
     let participants = <%= raw @temp_participants.to_json %>;
-
     function updateParticipantList() {
         let participants = <%= raw @temp_participants.to_json %>;
         refreshParticipantList(participants);
     }
-
     function refreshParticipantList(participants){
         editParticipantsDiv.innerHTML = '';
-
         participants.forEach(participant => {
             const participantElement = document.createElement('div');
             participantElement.className = 'rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2';
@@ -161,16 +150,17 @@
         $.ajax({
             type: "POST",
             url: `/wheels/${wheel.id}/temp_create`,
-            data: {id: wheel.id, name: String(participantName)},
+            data: {
+                id: wheel.id, 
+                name: String(participantName)
+            },
             headers: {
                 'X-CSRF-Token': csrfToken
             },
             success: function(response) {
                 wheel.segments = response;
                 wheel.update();
-                
                 refreshParticipantList(response);
-                
             },
             error: function(error) {
                 console.error("Error removing participant:", error);
@@ -179,9 +169,8 @@
         participantInput.value = '';
       }
     }
-
     function removeParticipant(participant_name) {
-      $.ajax({
+        $.ajax({
             type: "POST",
             url: `/wheels/${wheel.id}/temp_delete`,
             data: { name: participant_name },
@@ -195,13 +184,12 @@
                 wheel.segments = response;
                 wheel.update();
                 refreshParticipantList(response);
-                
             },
             error: function(error) {
-                console.error("Error removing participant:", error);
+                console.error("Error sorting participants:", error);
             }
         });
-      updateParticipantList();
+        updateParticipantList();
     }
 
     function shuffleParticipants() {
@@ -247,34 +235,33 @@
     alphBtn.addEventListener('click', sortParticipantsAlphabetically);
     addParticipantBtn.addEventListener('click', addParticipant);
     participantInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') {
-        addParticipant();
-      }
+        if (e.key === 'Enter') {
+            addParticipant();
+        }
     });
 
     viewTab.addEventListener('click', () => {
-      viewTab.classList.add('active-tab');
-      viewTab.classList.remove('inactive-tab');
-      editTab.classList.add('inactive-tab');
-      editTab.classList.remove('active-tab');
-      viewMode.classList.remove('hidden');
-      editMode.classList.add('hidden');
-      sortButtons.classList.add('hidden');
+        viewTab.classList.add('active-tab');
+        viewTab.classList.remove('inactive-tab');
+        editTab.classList.add('inactive-tab');
+        editTab.classList.remove('active-tab');
+        viewMode.classList.remove('hidden');
+        editMode.classList.add('hidden');
+        sortButtons.classList.add('hidden');
     });
-
     editTab.addEventListener('click', () => {
-      editTab.classList.add('active-tab');
-      editTab.classList.remove('inactive-tab');
-      viewTab.classList.add('inactive-tab');
-      viewTab.classList.remove('active-tab');
-      viewMode.classList.add('hidden');
-      editMode.classList.remove('hidden');
-      sortButtons.classList.remove('hidden');
+        editTab.classList.add('active-tab');
+        editTab.classList.remove('inactive-tab');
+        viewTab.classList.add('inactive-tab');
+        viewTab.classList.remove('active-tab');
+        viewMode.classList.add('hidden');
+        editMode.classList.remove('hidden');
+        sortButtons.classList.remove('hidden');
     });
 
     // Initial load
     updateParticipantList();
-  </script>
+</script>
 
 <!-- Confetti library -->
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -283,11 +270,11 @@
 <script>
     // Helpers
     shuffle = function (o) {
-    for (
-        var j, x, i = o.length;
-        i;
-        j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x
-    );
+        for (
+            var j, x, i = o.length;
+            i;
+            j = parseInt(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x
+        );
         return o;
     };
 
@@ -346,15 +333,6 @@
             "#F3B68A",
             "#F6DB8F",
         ],
-        segments: [],
-        seg_colors: [],
-        maxSpeed: Math.PI / 16,
-        upTime: 500, // How long to spin up for
-        downTime: 5500, // How long to slow down for
-        spinStart: 0,
-        frames: 0,
-        centerX: 300,
-        centerY: 300,
 
         spin: function () {
             // Start the wheel only if not already spinning
@@ -395,11 +373,7 @@
                 wheel.timerHandle = 0;
                 wheel.angleDelta = 0;
                 // Which segment is being pointed to?
-                var i =
-                    wheel.segments.length -
-                    Math.floor(
-                    (wheel.angleCurrent / (Math.PI * 2)) * wheel.segments.length
-                    ) - 1;
+                var i = wheel.segments.length - Math.floor((wheel.angleCurrent / (Math.PI * 2)) * wheel.segments.length) - 1;
                 // Now draw the winning name
                 var name = wheel.segments[i]
                 wheel.createResult(name, wheel.id);
@@ -407,10 +381,8 @@
             }
         },
 
-
         createResult: function (name, wheel_id) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-
             $.ajax({
                 type: "POST",
                 url: `/results`,
@@ -423,8 +395,8 @@
                     document.getElementById("past-results").insertAdjacentHTML("afterbegin",`
                         <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
                             <p>${name}</p>
-                        </div>
-                    `);
+                        </div>`
+                    );
                 },
                 error: function(error) {
                     console.error("Error creating result:", error);
@@ -451,13 +423,10 @@
                     type: "POST",
                     url: `/wheels/${wheel_id}/temp_delete`,
                     data: { name: name },
-                    headers: {
-                        'X-CSRF-Token': csrfToken
-                    },
+                    headers: { 'X-CSRF-Token': csrfToken },
                     success: function(response) {
                         // Hide modal after removing participant
                         modal.classList.add("hidden");
-                        
                         wheel.segments = response;
                         wheel.update();
                         updateParticipantList();
@@ -471,6 +440,7 @@
             document.getElementById("closeBtn").onclick = function() {
                 modal.classList.add("hidden");
             };
+
             // Confetti!
             let duration = 4000;
             let animationEnd = Date.now() + duration;
@@ -488,8 +458,24 @@
                 }
 
                 let particleCount = 50 * (timeLeft / duration);
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } }));
-                confetti(Object.assign({}, defaults, { particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } }));
+                confetti(Object.assign(
+                    {}, 
+                    defaults, { 
+                        particleCount, origin: { 
+                            x: randomInRange(0.1, 0.3), 
+                            y: Math.random() - 0.2 
+                        } 
+                    }
+                ));
+                confetti(Object.assign(
+                    {}, 
+                    defaults, { 
+                        particleCount, origin: { 
+                            x: randomInRange(0.7, 0.9), 
+                            y: Math.random() - 0.2 
+                        } 
+                    }
+                ));
             }, 250);
         },
 
@@ -505,20 +491,16 @@
                 alert("Wheel is not loaded " + exceptionData);
             }
         },
-
-        // Not functional right now
         initAudio: function () {
             var spinSound = document.createElement("audio");
             spinSound.setAttribute("src", "/audios/spinning.mp3");
             wheel.spinSound = spinSound;
         },
-
         initCanvas: function () {
             var canvas = document.getElementById("canvas");
             canvas.addEventListener("click", wheel.spin, false);
             wheel.canvasContext = canvas.getContext("2d");
         },
-
         initWheel: function () {
             shuffle(wheel.colors);
         },
@@ -537,10 +519,10 @@
             for (var i = 0; i < len; i++){
                 seg_color.push(colors[segments[i].hashCode().mod(colorLen)]);
             }
-            
             wheel.seg_color = seg_color;
             wheel.draw();
         },
+        
         draw: function () {
             wheel.clear();
             wheel.drawWheel();
@@ -634,15 +616,14 @@
         }
     };
 
-        window.onload = function () {
-            wheel.init();
-
-            wheel.segments = <%= raw @temp_participants.to_json %>;
-            wheel.id = <%= @wheel.id %>;
-
-            wheel.update();
-            setTimeout(function () {
-                window.scrollTo(0, 1);
-            }, 0);
+    // Initialize on load
+    window.onload = function () {
+        wheel.init();
+        wheel.segments = <%= raw @temp_participants.to_json %>;
+        wheel.id = <%= @wheel.id %>;
+        wheel.update();
+        setTimeout(function () {
+            window.scrollTo(0, 1);
+        }, 0);
     };
 </script>

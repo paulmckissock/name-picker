@@ -11,13 +11,13 @@ module.exports = {
     extend: {
       fontFamily: {
         sans: ["Inter var", ...defaultTheme.fontFamily.sans],
+        futura: ["Futura", "sans-serif"],
       },
       colors: {
         blue: {
           200: "#A5D8F1",
-          400: "#6DC5F1",
+          400: "#6BBEE7",
           500: "#4BB0E3",
-          600: "#47A2D0",
           800: "#3F80A0",
         },
         navy: {
@@ -30,8 +30,8 @@ module.exports = {
           500: "#E66C15",
         },
         yellow: {
-          100: "#FCEAB4",
-          200: "#F6DB8F",
+          200: "#ECE7CB",
+          400: "#F6DB8F",
           500: "#EEB71E",
           800: "#B98B37",
         },

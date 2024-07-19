@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-off-white futura-medium text-dark-gray;
+    @apply bg-off-white font-futura text-dark-gray;
   }
   h1 {
     @apply text-3xl pb-4;
@@ -16,7 +16,7 @@
     @apply font-bold pb-3;
   }
   a {
-    @apply text-yellow-500 underline hover:text-yellow-800;
+    @apply text-yellow-500 underline hover:text-yellow-800 focus:text-yellow-800;
   }
   input[type="text"],
   input[type="email"],
@@ -29,41 +29,17 @@
   .title {
     @apply text-3xl pb-4;
   }
-  .futura-medium {
-    font-family: "Futura", sans-serif;
-    src: url("/assets/fonts/Futura-Medium.ttf") format("truetype");
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
-  }
-  .futura-bold {
-    font-family: "Futura", sans-serif;
-    src: url("/assets/fonts/Futura-Bold.ttf") format("truetype");
-    font-optical-sizing: auto;
-    font-weight: 700;
-    font-style: normal;
-  }
-  .btn-primary {
-    @apply text-center bg-yellow-500 px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-yellow-800;
-  }
   .btn-text {
-    @apply flex no-underline align-middle text-center text-light-gray cursor-pointer hover:text-dark-gray;
+    @apply flex no-underline align-middle text-center text-light-gray cursor-pointer hover:text-dark-gray focus:text-dark-gray;
   }
   .btn-text img {
     @apply fill-blue-100;
   }
-  .btn-secondary {
-    @apply border border-yellow-500 text-dark-gray no-underline px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-dark-gray;
-  }
   .btn-primary {
-    @apply px-6 py-2 mb-6 bg-blue-500 text-off-white rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#3F80A0] border-b-[1px] border-blue-800
-    transition-all duration-150
-    active:translate-y-2 active:[box-shadow:0_0px_0_0_#3F80A0] active:border-b-[0px] hover:bg-blue-600;
+    @apply px-6 py-2 mb-6 bg-blue-500 text-off-white rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#3F80A0] border-[1px] border-blue-800 transition-all duration-150 active:translate-y-2 active:[box-shadow:0_0px_0_0_#3F80A0] active:border-b-[0px] hover:bg-blue-400 focus:bg-blue-400;
   }
   .btn-secondary {
-    @apply px-6 py-2 mb-10 bg-off-white text-yellow-800 rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#B98B37] border-b-[1px] border-yellow-800
-    transition-all duration-150
-    active:translate-y-2 active:[box-shadow:0_0px_0_0_#EEB71E] active:border-b-[0px] hover:bg-yellow-100;
+    @apply px-6 py-2 mb-10 bg-off-white text-yellow-800 rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#B98B37] border-[1px] border-yellow-800 transition-all duration-150 active:translate-y-2 active:[box-shadow:0_0px_0_0_#EEB71E] active:border-b-[0px] hover:bg-yellow-200 focus:bg-yellow-200;
   }
   .alert {
     @apply p-4 flex items-center;
@@ -72,15 +48,15 @@
     @apply bg-blue-200;
   }
   .alert-danger {
-    @apply bg-yellow-200;
+    @apply bg-yellow-400;
   }
   .field {
     @apply pb-3;
   }
   .active-tab {
-    @apply border border-off-white border-b-yellow-500 px-4 py-2 cursor-pointer;
+    @apply border border-off-white border-b-yellow-500 px-4 py-2 cursor-pointer hover:border-yellow-500 focus:border-yellow-500;
   }
   .inactive-tab {
-    @apply px-4 py-2 cursor-pointer;
+    @apply px-4 py-2 cursor-pointer hover:border-yellow-500 focus:border-yellow-500;
   }
 }
