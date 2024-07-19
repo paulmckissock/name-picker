@@ -36,15 +36,13 @@
                         <img src="/images/icons/close.svg" class="w-6 fill-current" alt="Close">
                     </button>
                 </div>
-                <div class="flex items-center">
-                    <form action="/wheels" method="post">
+                <form action="/wheels" method="post" class="flex items-center">
                     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                     <input id="participantInput" type="text" name="wheel[title]" class="" placeholder="My Wheel">
                     <button id="addParticipantBtn" class="btn-text px-4">
                         <img src="/images/icons/right.svg" class="w-8 fill-current" alt="Save and continue">
                     </button>
-                    </form>
-                </div>
+                </form>
             </div>
         </div>
     </div>
