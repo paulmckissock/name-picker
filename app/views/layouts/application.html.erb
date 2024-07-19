@@ -24,7 +24,10 @@
       <div id="navbar" class="flex justify-between items-center h-28 px-12">
         <div class="">
           <% if current_page?(new_wheel_path) || request.path =~ %r{^/wheels/\d+$} || request.path =~ %r{^/wheels/show} %>
-            <%= link_to "<- Back", wheels_path, class: "btn-text" %>
+            <%= link_to wheels_path, class: "flex items-center btn-text" do %>
+              <img src="/images/icons/left.svg" class="w-8 pr-2 fill-current">
+              Back
+            <% end %>
           <% else %>
             <a href="<%= root_path %>">
               <img src="/images/logo.png" alt="The Spinet logo" class="max-w-32">

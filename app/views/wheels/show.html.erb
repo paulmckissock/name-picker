@@ -1,5 +1,5 @@
 <div id="wheelHeading" class="flex flex-row justify-between px-12">
-    <h1>Wheel Title</h1>
+    <h1 id="wheelTitle">Wheel Title</h1>
     <button id="presentBtn" class="btn-primary">Present</button>
 </div>
 
@@ -52,7 +52,9 @@
                 <!-- Participants input -->
                 <div class="flex items-center pt-4">
                     <input id="participantInput" type="text" placeholder="Input a participant">
-                    <button id="addParticipantBtn" class="btn-text pl-4">--></button>
+                    <button id="addParticipantBtn" class="btn-text pl-4">
+                        <img src="/images/icons/right.svg" class="w-8 fill-current" alt="Add">
+                    </button>
                 </div>
                 </div>
             </div>
@@ -134,7 +136,7 @@
         participants.forEach(participant => {
             const participantElement = document.createElement('div');
             participantElement.className = 'rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2';
-            participantElement.innerHTML = `<p>${participant}</p><button onclick="removeParticipant('${participant}')">x</button>`;
+            participantElement.innerHTML = `<p>${participant}</p><button onclick="removeParticipant('${participant}')"><img src="/images/icons/close-white.svg" class="w-4" alt="Close"></button>`;
             editParticipantsDiv.appendChild(participantElement);
         });
     }
@@ -356,7 +358,6 @@
                 },
                 success: function(response) {
                     // Update the UI as needed
-                    
                     document.getElementById("past-results").insertAdjacentHTML("afterbegin",`
                         <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
                             <p>${name}</p>
@@ -550,8 +551,8 @@
         window.onload = function () {
             wheel.init();
 
-        wheel.segments = <%= raw @temp_participants.to_json %>;
-        wheel.id = <%= @wheel.id %>;
+            wheel.segments = <%= raw @temp_participants.to_json %>;
+            wheel.id = <%= @wheel.id %>;
 
             wheel.update();
             setTimeout(function () {
