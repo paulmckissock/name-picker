@@ -30,12 +30,13 @@
                     </div>
                     <!-- Sort buttons -->
                     <div id="sortButtons" class="flex gap-4 py-2">
-                        <button id="shuffle" class="btn-text">
+                        <%= button_to shuffle_wheel_path(@wheel), class: 'btn-text', method: :post do %>
                             <img src="/images/icons/shuffle.svg" class="w-6 fill-current" alt="Shuffle">
-                        </button>
-                        <button id="sort" class="btn-text">
+                        <% end %>
+                        
+                        <%= button_to sort_alphabetically_wheel_path(@wheel), class: 'btn-text', method: :post do %>
                             <img src="/images/icons/sort.svg" class="w-6 fill-current" alt="Sort">
-                        </button>
+                        <% end %>
                     </div>
                 </div>
                 <!-- View mode -->
