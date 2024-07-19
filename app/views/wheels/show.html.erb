@@ -212,9 +212,6 @@
                 'X-CSRF-Token': csrfToken
             },
             success: function(response) {
-                // Hide modal after removing participant
-                modal.classList.add("hidden");
-                
                 wheel.segments = response;
                 wheel.update();
                 refreshParticipantList(response);
@@ -233,17 +230,14 @@
             headers: {
                 'X-CSRF-Token': csrfToken
             },
-            success: function(response) {
-                // Hide modal after removing participant
-                modal.classList.add("hidden");
-                
+            success: function(response) {        
                 wheel.segments = response;
                 wheel.update();
                 refreshParticipantList(response);
                 
             },
             error: function(error) {
-                console.error("Error shuffling participants:", error);
+                console.error("Error sorting participants:", error);
             }
         });
       updateParticipantList();
