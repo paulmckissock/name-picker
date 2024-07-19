@@ -29,9 +29,13 @@
                         <button id="viewTab" class="inactive-tab">Results</button>
                     </div>
                     <!-- Sort buttons -->
-                    <div class="flex gap-4 py-2">
-                        <button id="shuffle" class="btn-text">Shuffle</button>
-                        <button id="sort" class="btn-text">Sort</button>
+                    <div id="sortButtons" class="flex gap-4 py-2">
+                        <button id="shuffle" class="btn-text">
+                            <img src="/images/icons/shuffle.svg" class="w-6 fill-current" alt="Shuffle">
+                        </button>
+                        <button id="sort" class="btn-text">
+                            <img src="/images/icons/sort.svg" class="w-6 fill-current" alt="Sort">
+                        </button>
                     </div>
                 </div>
                 <!-- View mode -->
@@ -152,7 +156,9 @@
     const editMode = document.getElementById('editMode');
     const participantInput = document.getElementById('participantInput');
     const addParticipantBtn = document.getElementById('addParticipantBtn');
+    var participantName = participantInput.value.trim();
     const editParticipantsDiv = document.getElementById('editParticipants');
+    const sortButtons = document.getElementById('sortButtons');
     var csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
     let participants = <%= raw @temp_participants.to_json %>;
@@ -194,6 +200,7 @@
                 console.error("Error removing participant:", error);
             }
         });
+        participantInput.value = '';
       }
     }
 
@@ -235,6 +242,7 @@
       editTab.classList.remove('active-tab');
       viewMode.classList.remove('hidden');
       editMode.classList.add('hidden');
+      sortButtons.classList.add('hidden');
     });
 
     editTab.addEventListener('click', () => {
@@ -244,6 +252,7 @@
       viewTab.classList.remove('active-tab');
       viewMode.classList.add('hidden');
       editMode.classList.remove('hidden');
+      sortButtons.classList.remove('hidden');
     });
 
     // Initial load
