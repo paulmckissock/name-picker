@@ -26,6 +26,9 @@
 }
 
 @layer components {
+  .title {
+    @apply text-3xl pb-4;
+  }
   .futura-medium {
     font-family: "Futura", sans-serif;
     src: url("/assets/fonts/Futura-Medium.ttf") format("truetype");
@@ -55,7 +58,7 @@
   .btn-primary {
     @apply px-6 py-2 mb-6 bg-blue-500 text-off-white rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#3F80A0] border-b-[1px] border-blue-800
     transition-all duration-150
-    active:translate-y-2 active:[box-shadow:0_0px_0_0_#3F80A0] active:border-b-[0px] hover:bg-blue-400;
+    active:translate-y-2 active:[box-shadow:0_0px_0_0_#3F80A0] active:border-b-[0px] hover:bg-blue-600;
   }
   .btn-secondary {
     @apply px-6 py-2 mb-10 bg-off-white text-yellow-800 rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#B98B37] border-b-[1px] border-yellow-800
