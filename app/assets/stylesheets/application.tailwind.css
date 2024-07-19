@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-off-white futura-medium;
+    @apply bg-off-white futura-medium text-dark-gray;
   }
   h1 {
     @apply text-3xl pb-4;
@@ -16,12 +16,12 @@
     @apply font-bold pb-3;
   }
   a {
-    @apply text-yellow-500 underline;
+    @apply text-yellow-500 underline hover:text-yellow-800;
   }
   input[type="text"],
   input[type="email"],
   input[type="password"] {
-    @apply w-full bg-off-white border-off-white border-b-gray-400 focus:border-blue-500 focus:ring-0;
+    @apply w-full bg-off-white border-off-white border-b-light-gray focus:border-blue-500 focus:ring-0;
   }
 }
 
@@ -44,11 +44,15 @@
     @apply text-center bg-yellow-500 px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-yellow-800;
   }
   .btn-text {
-    @apply flex no-underline align-middle text-center text-gray-500 cursor-pointer hover:text-gray-700;
+    @apply flex no-underline align-middle text-center text-light-gray cursor-pointer hover:text-dark-gray;
   }
   .btn-secondary {
-    @apply border border-yellow-500 text-gray-900 no-underline px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-gray-700;
-    @apply border border-yellow-500 text-gray-900 no-underline px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-gray-700;
+    @apply border border-yellow-500 text-dark-gray no-underline px-4 py-2 cursor-pointer hover:bg-yellow-800 focus:bg-dark-gray;
+  }
+  .btn-3d {
+    @apply w-40 h-16 mb-10 bg-blue-500 text-off-white rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#1b6ff8,0_15px_0_0_#1b70f841] border-b-[1px] border-blue-400
+    transition-all duration-150
+    active:translate-y-2 active:[box-shadow:0_0px_0_0_#1b6ff8,0_0px_0_0_#1b70f841] active:border-b-[0px];
   }
   .alert {
     @apply p-4 flex items-center;

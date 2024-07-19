@@ -1,7 +1,11 @@
 <div class="px-8">
     <div class="flex flex-row h-[calc(100vh-07rem)] pb-8">
         <!-- new wheel button -->
-        <button onclick="showModal()" class='flex items-center border border-gray-700 justify-center w-1/3 h-1/4 m-4 p-4 btn-text hover:border-blue-500 focus:border-blue-500'>+ New Wheel</button>
+        <button onclick="showModal()" class='flex items-center border border-gray-700 justify-center w-1/3 h-1/4 m-4 p-4 btn-text hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500'>
+            <span class="sr-only">Add</span>
+            <img src="/images/icons/add.svg" class="w-4 mr-2">
+            New Wheel
+        </button>
 
         <div class="w-2/3 m-4 border border-gray-700 overflow-hidden overflow-y-auto">
             <!-- check if wheel is empty -->
@@ -12,7 +16,7 @@
             <% else %>
                 <!-- show user's wheels -->
                 <% @wheels.each do |wheel| %>
-                    <%= link_to wheel_path(wheel), class: 'btn-text h-min flex flex-row items-center justify-between border border-gray-700 p-4 m-4 hover:border-blue-500 focus:border-blue-500' do %>
+                    <%= link_to wheel_path(wheel), class: 'btn-text h-min flex flex-row items-center justify-between border border-gray-700 p-4 m-4 hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500' do %>
                             <h3 class="pb-0"><%= wheel.title %></h3>
                             <div class="flex flex-row gap-2">
                                 <p>Last updated </p>
@@ -29,7 +33,10 @@
             <div class="bg-white shadow-lg p-6 w-1/3">
                 <div class="flex justify-between">
                     <h2 class="text-2xl font-bold mb-4">Give your wheel a name</h2>
-                    <button id="closeBtn" class="btn-text"><span class="sr-only">Close</span>X</button>
+                    <button id="closeBtn" class="btn-text">
+                        <span class="sr-only">Close</span>
+                        <img src="/images/icons/close.svg" class="w-6">
+                    </button>
                 </div>
                 <div class="flex items-center">
                     <form action="/wheels" method="post">

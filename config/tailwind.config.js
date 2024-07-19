@@ -28,6 +28,8 @@ module.exports = {
           800: "#B98B37",
         },
         "off-white": "#ECF3F6",
+        "dark-gray": "#282725",
+        "light-gray": "#767979",
       },
     },
   },
