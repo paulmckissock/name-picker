@@ -5,10 +5,11 @@ Rails.application.routes.draw do
     member do
       post :temp_create
       post :temp_delete
-      post :create_result
       post :sort_alphabetically
       post :shuffle
       post :reset_participants
     end
   end
+  
+  resources :results, only: [:create]
 end

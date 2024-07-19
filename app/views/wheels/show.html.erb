@@ -419,8 +419,8 @@
 
             $.ajax({
                 type: "POST",
-                url: `/wheels/${wheel_id}/create_result`,
-                data: { participant_name: name},
+                url: `/results`,
+                data: { participant_name: name, wheel_id: wheel_id},
                 headers: {
                     'X-CSRF-Token': csrfToken
                 },

@@ -15,24 +15,6 @@ class WheelsController < ApplicationController
     @wheel = Wheel.new
   end
 
-  def create_result
-    @result = Result.new(
-      wheel_id: wheel.id,
-      user: current_user,
-      participant_name: params[:participant_name].to_s
-    )
-
-    if @result.save
-      respond_to do |format|
-        format.json { render json: @result }
-      end
-    else
-      respond_to do |format|
-        format.json { render json: @result.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
   def create
     @wheel = Wheel.new(wheel_params)
     wheel.user = current_user
