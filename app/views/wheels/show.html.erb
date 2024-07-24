@@ -332,6 +332,21 @@
         centerY: 300,
 
         spin: function () {
+            // Check if there are participants
+            if (wheel.segments.length === 0) {
+                document.getElementById("wheelHeading").insertAdjacentHTML("beforebegin",
+                    `<p id="alert-banner" class="alert alert-danger fixed top-0 left-0 w-full z-50 p-4">Add some participants before spinning the wheel</p>`
+                );
+                const alertBanner = document.getElementById('alert-banner');
+                if (alertBanner) {
+                    setTimeout(function() {
+                        alertBanner.style.transition = "opacity 1s ease";
+                        alertBanner.style.opacity = 0;
+                        setTimeout(() => alertBanner.remove(), 1000);
+                    }, 2000);
+                }
+                return;
+            }
             // Start the wheel only if not already spinning
             if (wheel.timerHandle == 0) {
                 wheel.spinStart = new Date().getTime();
