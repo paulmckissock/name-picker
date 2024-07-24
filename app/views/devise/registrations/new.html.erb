@@ -1,13 +1,13 @@
-<!--Sign up-->
-<div class="h-screen flex flex-row">
-    <div class="w-1/2 bg-blue-500 flex items-center justify-center">
+<!--Sign up -->
+<div class="h-screen md:flex">
+    <div class="md:w-1/2 bg-blue-500 flex items-center justify-center overflow-hidden">
         <div class="p-20">
             <!-- Left half content -->
-            <img src="/images/ready-to-spinet.png" alt="Logo displaying 'Ready to Spinet?'" class="max-w-80 pb-10">
+            <img src="/images/ready-to-spinet.png" alt="Logo displaying 'Ready to Spinet?'" class="max-w-40 md:max-w-80 md:pb-10">
         </div>
     </div>
-    <div class="w-1/2 flex items-center justify-center">
-        <div class="p-10 gap-8 w-10/12">
+    <div class="md:w-1/2 flex items-center justify-center overflow-hidden">
+        <div class="p-10 gap-8 w-full lg:w-10/12">
           <!-- Right half content -->
           <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
             <%= render "devise/shared/error_messages", resource: resource %>
@@ -35,12 +35,12 @@
               <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
             </div>
 
-            <div >
-              <%= f.submit "Start Spinning", class: "btn-primary actions my-8"%>
+            <div class="my-6">
+              <%= f.submit "Start Spinning", class: "btn-primary actions"%>
             </div>
           <% end %>
 
-          <div class="flex flex-row gap-3 pt-2">
+          <div class="md:flex gap-3 pt-2">
             <p>Already have an account?</p> 
             <%= render "devise/shared/links", class:"link" %>
           </div>

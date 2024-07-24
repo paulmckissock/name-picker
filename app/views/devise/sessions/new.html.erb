@@ -1,15 +1,17 @@
-<div class="h-screen flex flex-row">
-    <div class="w-1/2 bg-blue-500 flex items-center justify-center">
+<!-- Sign in -->
+<div class="h-screen md:flex">
+    <div class="md:w-1/2 bg-blue-500 flex items-center justify-center overflow-hidden">
         <div class="p-20">
             <!-- Left half content -->
-            <img src="/images/ready-to-spinet.png" alt="Logo displaying 'Ready to Spinet?'" class="max-w-80 pb-10">
+            <img src="/images/ready-to-spinet.png" alt="Logo displaying 'Ready to Spinet?'" class="max-w-40 md:max-w-80 md:pb-10">
         </div>
     </div>
-    <div class="w-1/2 flex items-center justify-center">
-        <div class="p-10 gap-8 w-10/12">
+    <div class="md:w-1/2 flex items-center justify-center overflow-hidden">
+        <div class="p-10 gap-8 w-full lg:w-10/12">
           <!-- Login form -->
-          <h3 class="py-6">Welcome Back</h3>
           <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+
+          <h3 class="py-6">Welcome Back</h3>
             <div class="field">
               <%= f.label :email %><br />
               <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
@@ -27,12 +29,12 @@
               </div>
             <% end %>
 
-            <div class="py-6">
+            <div class="my-6">
               <%= f.submit "Log In", class: "btn-primary actions" %>
             </div>
           <% end %>
 
-          <div class="flex flex-row gap-3">
+          <div class="md:flex gap-3">
             <p>Don't have an account?</p> 
             <%= render "devise/shared/links" %>
           </div>
