@@ -21,8 +21,10 @@
     
     <!-- nav bar -->
     <% unless request.path == '/users/sign_up' || request.path == '/users/sign_in' || request.path == '/users' %>
-      <div id="navbar" class="flex justify-between items-center h-28 px-12">
-        <div class="">
+      <div id="navbar" class="flex justify-between items-center h-28 px-4 md:px-12">
+        
+        <!-- logo/back button -->
+        <div class="flex items-center z-20">
           <% if current_page?(new_wheel_path) || request.path =~ %r{^/wheels/\d+$} || request.path =~ %r{^/wheels/show} %>
             <%= link_to wheels_path, class: "flex items-center btn-text" do %>
               <svg class="w-8 pr-2 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
@@ -36,19 +38,38 @@
             </a>
           <% end %>
         </div>
-        <div class="flex items-center gap-10">
+
+        <!-- hamburger menu -->
+        <button id="hamburger-button" class="md:hidden btn-text flex items-center">
+          <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 30V26.6667H35V30H5ZM5 21.6667V18.3333H35V21.6667H5ZM5 13.3333V10H35V13.3333H5Z" fill="currentColor"/>
+          </svg>
+        </button>
+        
+        <!-- mobile nav links -->
+        <div id="mobile-menu" class="absolute top-16 left-0 w-full bg-off-white hidden z-10 flex flex-col items-end p-4">
           <% if user_signed_in? %>
-            <%= link_to "My Profile", edit_user_registration_path, class: "btn-text"%>
+            <%= link_to "My Profile", edit_user_registration_path, class: "btn-text mb-2" %>
             <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn-text" %>
           <% end %>
         </div>
+
+        <!-- desktop nav links -->
+        <div class="hidden md:flex items-center gap-10">
+          <% if user_signed_in? %>
+            <%= link_to "My Profile", edit_user_registration_path, class: "btn-text" %>
+            <%= link_to "Log Out", destroy_user_session_path, method: :delete, class: "btn-text" %>
+          <% end %>
+        </div>
+
       </div>
     <% end %>
 
     <%= yield %>
 
-    <!-- alert banner script-->
+    <!-- nav script-->
     <script>
+      // alert banner fade
       document.addEventListener('DOMContentLoaded', function() {
         const alertBanner = document.getElementById('alert-banner');
         if (alertBanner) {
@@ -59,7 +80,12 @@
           }, 2000);
         }
       });
+      // hamburger menu toggle
+      document.getElementById('hamburger-button').addEventListener('click', function() {
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileMenu.classList.toggle('hidden');
+      });
     </script>
-
+    
   </body>
 </html>
