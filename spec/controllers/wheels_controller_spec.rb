@@ -128,8 +128,6 @@ RSpec.describe WheelsController, type: :controller do
       end
     end
 
-
-
     describe "Participant sorting" do
       it "sorts participants alphabetically by name" do
         post :temp_create, params: {id: wheel.id, name: "Charlie"}, as: :json
