@@ -30,13 +30,13 @@
                     </div>
                     <!-- Sort buttons -->
                     <div id="sortButtons" class="flex gap-4 py-2">
-                        <button id="shuffleBtn" class="btn-text">
-                            <svg class="w-6 fill-current" alt="Shuffle" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <button id="shuffleBtn" class="btn-text" aria-label="Shuffle">
+                            <svg class="w-6 fill-current" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                                 <path d="M23.3327 33.5309V30.1976H27.666L22.3743 24.9059L24.7493 22.5309L29.9993 27.7809V23.5309H33.3327V33.5309H23.3327ZM8.99935 33.5309L6.66602 31.1976L27.666 10.1976H23.3327V6.86426H33.3327V16.8643H29.9993V12.5309L8.99935 33.5309ZM15.291 17.8226L6.66602 9.19759L8.99935 6.86426L17.6243 15.4893L15.291 17.8226Z" fill="currentColor"/>
                             </svg>
                         </button>
-                        <button id="alphBtn" class="btn-text">
-                            <svg class="w-6 fill-current" alt="Sort" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <button id="alphBtn" class="btn-text" aria-label="Sort alphabetically">
+                            <svg class="w-6 fill-current" alt="Sort" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                                 <path d="M3.33398 28.5312L9.58398 11.8646H13.1673L19.4173 28.5312H16.0007L14.584 24.5313H8.16732L6.83398 28.5312H3.33398ZM9.16732 21.6979H13.5007L11.5007 15.4479H11.2507L9.16732 21.6979ZM22.834 28.5312V25.3646L31.2507 14.8646H23.1673V11.8646H34.9173V15.0312L26.584 25.5312H35.0007V28.5312H22.834ZM15.0007 8.53125L20.0007 3.53125L25.0007 8.53125H15.0007ZM20.0007 36.8646L15.0007 31.8646H25.0007L20.0007 36.8646Z" fill="currentColor"/>
                             </svg>
                         </button>
@@ -58,15 +58,15 @@
                     <div id="editParticipants" class="flex flex-wrap gap-2 pb-4">
                         <!-- Participants will be dynamically added here -->
                     </div>
-                <!-- Participants input -->
-                <div class="flex items-center pt-4">
-                    <input id="participantInput" type="text" placeholder="Input a participant">
-                    <button id="addParticipantBtn" class="btn-text pl-2">
-                        <svg class="w-8 fill-current" alt="Save and continue" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M23.3334 30L21.0001 27.5833L26.9167 21.6667H6.66675V18.3333H26.9167L21.0001 12.4167L23.3334 10L33.3334 20L23.3334 30Z" fill="currentColor"/>
-                        </svg>
-                    </button>
-                </div>
+                    <!-- Participants input -->
+                    <div class="flex items-center pt-4">
+                        <input id="participantInput" type="text" placeholder="Input a participant">
+                        <button id="addParticipantBtn" class="btn-text pl-2" aria-label="Add participant">
+                            <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                                <path d="M23.3334 30L21.0001 27.5833L26.9167 21.6667H6.66675V18.3333H26.9167L21.0001 12.4167L23.3334 10L33.3334 20L23.3334 30Z" fill="currentColor"/>
+                            </svg>
+                        </button>
+                    </div>
                 </div>
             </div>
             <%= button_to "Save", wheel_path(@wheel), method: :patch, class: "btn-secondary mt-8" %>
@@ -146,8 +146,8 @@
         participants.forEach(participant => {
             const participantElement = document.createElement('div');
             participantElement.className = 'rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2';
-            participantElement.innerHTML = `<p>${participant}</p><button onclick="removeParticipant('${participant}')">
-            <svg class="w-4 fill-white" alt="Close" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            participantElement.innerHTML = `<p>${participant}</p><button onclick="removeParticipant('${participant}')" aria-label="Remove participant">
+            <svg class="w-4 fill-white" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                 <path d="M10.6666 31.6667L8.33325 29.3333L17.6666 20L8.33325 10.6667L10.6666 8.33333L19.9999 17.6667L29.3333 8.33333L31.6666 10.6667L22.3333 20L31.6666 29.3333L29.3333 31.6667L19.9999 22.3333L10.6666 31.6667Z" fill="currentColor"/>
             </svg>
             </button>`;
@@ -204,42 +204,42 @@
     }
 
     function shuffleParticipants() {
-      $.ajax({
-            type: "POST",
-            url: `/wheels/${wheel.id}/shuffle`,
-            headers: {
-                'X-CSRF-Token': csrfToken
-            },
-            success: function(response) {
-                wheel.segments = response;
-                wheel.update();
-                refreshParticipantList(response);
-                
-            },
-            error: function(error) {
-                console.error("Error shuffling participants:", error);
-            }
-        });
-      updateParticipantList();
+        $.ajax({
+                type: "POST",
+                url: `/wheels/${wheel.id}/shuffle`,
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(response) {
+                    wheel.segments = response;
+                    wheel.update();
+                    refreshParticipantList(response);
+                    
+                },
+                error: function(error) {
+                    console.error("Error shuffling participants:", error);
+                }
+            });
+        updateParticipantList();
     }
     function sortParticipantsAlphabetically() {
-      $.ajax({
-            type: "POST",
-            url: `/wheels/${wheel.id}/sort_alphabetically`,
-            headers: {
-                'X-CSRF-Token': csrfToken
-            },
-            success: function(response) {        
-                wheel.segments = response;
-                wheel.update();
-                refreshParticipantList(response);
-                
-            },
-            error: function(error) {
-                console.error("Error sorting participants:", error);
-            }
-        });
-      updateParticipantList();
+        $.ajax({
+                type: "POST",
+                url: `/wheels/${wheel.id}/sort_alphabetically`,
+                headers: {
+                    'X-CSRF-Token': csrfToken
+                },
+                success: function(response) {        
+                    wheel.segments = response;
+                    wheel.update();
+                    refreshParticipantList(response);
+                    
+                },
+                error: function(error) {
+                    console.error("Error sorting participants:", error);
+                }
+            });
+        updateParticipantList();
     }
 
     shuffleBtn.addEventListener('click', shuffleParticipants);
@@ -329,21 +329,6 @@
         frames: 0,
         centerX: 300,
         centerY: 300,
-        timerHandle: 0,
-        timerDelay: 33,
-        angleCurrent: 0,
-        angleDelta: 0,
-        size: 290,
-        canvasContext: null,
-        colors: [
-            "#4BB0E3",
-            "#85A4CA",
-            "#E66C15",
-            "#EEB71E",
-            "#A5D8F1",
-            "#F3B68A",
-            "#F6DB8F",
-        ],
 
         spin: function () {
             // Start the wheel only if not already spinning
@@ -570,10 +555,10 @@
             var value = segments[key];
             ctx.save();
             ctx.beginPath();
-            // Start in the centre
+            // Start in the center
             ctx.moveTo(centerX, centerY);
-            ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw a arc around the edge
-            ctx.lineTo(centerX, centerY); // Now draw a line back to the centre
+            ctx.arc(centerX, centerY, size, lastAngle, angle, false); // Draw an arc around the edge
+            ctx.lineTo(centerX, centerY); // Now draw a line back to the center
             ctx.closePath();
             ctx.fillStyle = colors[key];
             ctx.fill();

@@ -2,7 +2,7 @@
     <div class="flex flex-row h-[calc(100vh-07rem)] pb-8">
         <!-- new wheel button -->
         <button onclick="showModal()" class='flex items-center border border-gray-700 justify-center w-1/3 h-1/4 m-4 p-4 btn-text hover:ring-2 hover:ring-blue-500 focus:ring-2 focus:ring-blue-500'>
-            <svg class="w-4 mr-1 fill-current" alt="Create" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-4 mr-1 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                 <path d="M18.3333 21.6667H8.33325V18.3333H18.3333V8.33334H21.6666V18.3333H31.6666V21.6667H21.6666V31.6667H18.3333V21.6667Z" fill="currentColor"/>
             </svg>
             New Wheel
@@ -34,8 +34,8 @@
             <div class="bg-white shadow-lg p-6 w-1/3">
                 <div class="flex justify-between">
                     <h2 class="text-2xl font-bold mb-4">Give your wheel a name</h2>
-                    <button id="closeBtn" class="btn-text">
-                        <svg class="w-6 fill-current" alt="Close" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button id="closeBtn" class="btn-text" aria-label="Close">
+                        <svg class="w-6 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                             <path d="M10.6666 31.6667L8.33325 29.3333L17.6666 20L8.33325 10.6667L10.6666 8.33333L19.9999 17.6667L29.3333 8.33333L31.6666 10.6667L22.3333 20L31.6666 29.3333L29.3333 31.6667L19.9999 22.3333L10.6666 31.6667Z" fill="currentColor"/>
                         </svg>
                     </button>
@@ -43,8 +43,8 @@
                 <form action="/wheels" method="post" class="flex items-center">
                     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
                     <input id="participantInput" type="text" name="wheel[title]" class="" placeholder="My Wheel">
-                    <button id="addParticipantBtn" class="btn-text pl-2">
-                        <svg class="w-8 fill-current" alt="Save and continue" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <button id="addParticipantBtn" class="btn-text pl-2" aria-label="Save and continue">
+                        <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                             <path d="M23.3334 30L21.0001 27.5833L26.9167 21.6667H6.66675V18.3333H26.9167L21.0001 12.4167L23.3334 10L33.3334 20L23.3334 30Z" fill="currentColor"/>
                         </svg>
                     </button>
