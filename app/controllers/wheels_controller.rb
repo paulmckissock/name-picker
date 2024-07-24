@@ -84,12 +84,7 @@ class WheelsController < ApplicationController
 
   def check_unsaved_changes
     load_temp_participants
-    has_unsaved_changes = unsaved_changes?
-    render json: { unsaved_changes: has_unsaved_changes }
-  end
-
-  def unsaved_changes?
-    temp_participants != wheel.participants.pluck(:name)
+    render json: {unsaved_changes: temp_participants != wheel.participants.pluck(:name)}
   end
 
   private
