@@ -18,9 +18,9 @@
     <% if alert %>
       <p id="alert-banner" class="alert alert-danger fixed top-0 left-0 w-full z-50 p-4"><%= alert %></p>
     <% end %>
-
+    
     <!-- nav bar -->
-    <% unless current_page?(new_user_registration_path) || current_page?(new_user_session_path) %>
+    <% unless request.path == '/users/sign_up' || request.path == '/users/sign_in' || request.path == '/users' %>
       <div id="navbar" class="flex justify-between items-center h-28 px-12">
         <div class="">
           <% if current_page?(new_wheel_path) || request.path =~ %r{^/wheels/\d+$} || request.path =~ %r{^/wheels/show} %>
