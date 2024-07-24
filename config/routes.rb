@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       post :sort_alphabetically
       post :shuffle
       post :reset_participants
+      get :check_unsaved_changes
     end
   end
 

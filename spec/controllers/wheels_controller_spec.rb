@@ -106,7 +106,29 @@ RSpec.describe WheelsController, type: :controller do
         temp_participants = session["temp_participants_#{wheel.id}"]
         expect(temp_participants).to eq(["Alice", "Bob"])
       end
+
+      it "shows that there are unsaved changes when a participant is added" do
+        post :temp_create, params: {id: wheel.id, name: "Joe"}, as: :json
+        get :check_unsaved_changes, params: {id: wheel.id}, as: :json
+        json_response = JSON.parse(response.body)
+        expect(json_response["unsaved_changes"]).to be true
+      end
+
+      it "shows that there are unsaved changes when a participant is deleted" do
+        post :temp_delete, params: {id: wheel.id, name: "Bob"}, as: :json
+        get :check_unsaved_changes, params: {id: wheel.id}, as: :json
+        json_response = JSON.parse(response.body)
+        expect(json_response["unsaved_changes"]).to be true
+      end
+
+      it "shows that there are no unsaved changes when nothing is changed" do
+        get :check_unsaved_changes, params: {id: wheel.id}, as: :json
+        json_response = JSON.parse(response.body)
+        expect(json_response["unsaved_changes"]).to be false
+      end
     end
+
+
 
     describe "Participant sorting" do
       it "sorts participants alphabetically by name" do
