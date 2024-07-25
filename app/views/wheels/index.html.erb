@@ -42,8 +42,9 @@
                 </div>
                 <form action="/wheels" method="post" class="flex items-center">
                     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
-                    <input id="participantInput" type="text" name="wheel[title]" class="" placeholder="My Wheel">
-                    <button id="addParticipantBtn" class="btn-text pl-2" aria-label="Save and continue">
+                    <label for="titleInput" class="sr-only">Wheel name</label>
+                    <input id="titleInput" type="text" name="wheel[title]" class="" placeholder="My Wheel">
+                    <button class="btn-text pl-2" aria-label="Save and continue">
                         <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
                             <path d="M23.3334 30L21.0001 27.5833L26.9167 21.6667H6.66675V18.3333H26.9167L21.0001 12.4167L23.3334 10L33.3334 20L23.3334 30Z" fill="currentColor"/>
                         </svg>

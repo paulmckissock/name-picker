@@ -14,7 +14,7 @@
     </div>
     <!-- The wheel -->
     <div id="wheelHalf" class="md:w-1/2 flex flex-col md:flex-row items-center justify-center">
-        <div id="wheel" class="flex items-center justify-center h-[100vw] w-[100vw] md:h-[80vh] md:w-[80vh] md:my-12">
+        <div id="wheel" class="flex items-center justify-center h-[100vw] w-screen md:h-[80vh] md:w-[80vh] md:my-12">
             <canvas id="canvas"></canvas>
         </div>
         <div id="exitBtn" class="hidden flex pt-4 m-4 mt-auto md:justify-end">
@@ -61,6 +61,7 @@
                 </div>
                 <!-- Participants input field -->
                 <div class="flex items-center pt-4">
+                    <label for="participantInput" class="sr-only">Enter participent</label>
                     <input id="participantInput" type="text" placeholder="Input a participant">
                     <button id="addParticipantBtn" class="btn-text pl-2" aria-label="Add participant">
                         <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
