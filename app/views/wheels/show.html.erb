@@ -1,76 +1,74 @@
 <!-- Title and present button -->
-<div id="wheelHeading" class="flex justify-between px-4 md:px-12">
-    <h1 class="pb-0"><%= @wheel.title %></h1>
-    <button id="presentBtn" class="btn-primary">Present</button>
+<div id="wheelHeading" class="flex flex-col sm:flex-row justify-between px-4 md:px-12">
+    <h1 class="md:pb-0"><%= @wheel.title %></h1>
+    <div class="flex gap-4">
+        <%= button_to "Save", wheel_path(@wheel), method: :patch, class: "btn-secondary" %>
+        <button id="presentBtn" class="btn-primary">Present</button>
+    </div>
 </div>
 
-<div class="md:h-screen md:flex overflow-hidden">
+<div class="px-4 md:pt-8 md:flex md:px-8 overflow-hidden">
+    <!-- Spinet logo for present mode -->
     <div class="md:absolute left-20 top-8">
         <img id="spinet" src="/images/logo.png" class="hidden max-w-60" alt="The Spinet logo" >
     </div>
-    <div id="wheelHalf" class="md:w-1/2 flex items-center justify-center">
-        <div class="p-4 md:p-20">
-            <!-- The wheel -->
-            <div id="wheel">
-                <canvas id="canvas" width="610" height="600"></canvas>
-            </div>
-            <div class="flex justify-center pt-4 md:justify-end">
-                <button id="exitBtn" class="btn-secondary hidden mb-0">Exit</button>
-            </div>
+    <!-- The wheel -->
+    <div id="wheelHalf" class="md:w-1/2 flex flex-col md:flex-row items-center justify-center">
+        <div id="wheel" class="flex items-center justify-center h-[100vw] w-[100vw] md:h-[80vh] md:w-[80vh] md:my-12">
+            <canvas id="canvas"></canvas>
+        </div>
+        <div id="exitBtn" class="hidden flex pt-4 m-4 mt-auto md:justify-end">
+            <button class="btn-secondary mb-0">Exit</button>
         </div>
     </div>
+    <!-- Wheel editor -->
     <div id="editHalf" class="md:w-1/2 flex justify-center">
-        <!-- Editing block -->
-        <div class="md:pt-28 gap-8">
-            <div class="relative w-72 md:w-96 pt-6">
-                <div class="flex justify-between pb-4">
-                    <!-- Tabs -->
-                    <div>
-                        <button id="editTab" class="active-tab">Names</button>
-                        <button id="viewTab" class="inactive-tab">Results</button>
-                    </div>
-                    <!-- Sort buttons -->
-                    <div id="sortButtons" class="flex gap-4 py-2">
-                        <button id="shuffleBtn" class="btn-text" aria-label="Shuffle">
-                            <svg class="w-6 fill-current" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                                <path d="M23.3327 33.5309V30.1976H27.666L22.3743 24.9059L24.7493 22.5309L29.9993 27.7809V23.5309H33.3327V33.5309H23.3327ZM8.99935 33.5309L6.66602 31.1976L27.666 10.1976H23.3327V6.86426H33.3327V16.8643H29.9993V12.5309L8.99935 33.5309ZM15.291 17.8226L6.66602 9.19759L8.99935 6.86426L17.6243 15.4893L15.291 17.8226Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                        <button id="alphBtn" class="btn-text" aria-label="Sort alphabetically">
-                            <svg class="w-6 fill-current" alt="Sort" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                                <path d="M3.33398 28.5312L9.58398 11.8646H13.1673L19.4173 28.5312H16.0007L14.584 24.5313H8.16732L6.83398 28.5312H3.33398ZM9.16732 21.6979H13.5007L11.5007 15.4479H11.2507L9.16732 21.6979ZM22.834 28.5312V25.3646L31.2507 14.8646H23.1673V11.8646H34.9173V15.0312L26.584 25.5312H35.0007V28.5312H22.834ZM15.0007 8.53125L20.0007 3.53125L25.0007 8.53125H15.0007ZM20.0007 36.8646L15.0007 31.8646H25.0007L20.0007 36.8646Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
+        <div class="relative p-4 md:pt-12 lg:w-5/6">
+            <div class="flex justify-between pb-4">
+                <!-- Tabs -->
+                <div>
+                    <button id="editTab" class="active-tab">Names</button>
+                    <button id="viewTab" class="inactive-tab">Results</button>
                 </div>
-                <!-- View mode -->
-                <div id="viewMode" class="hidden py-2">
-                    <!-- Past winners -->
-                    <div class="flex flex-wrap gap-2" id="past-results">
-                        <% @results.each do |result| %>
-                            <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
-                                <p><%= result.participant_name %></p>
-                            </div>
-                        <% end %>
-                    </div>
-                </div>
-                <!-- Edit mode -->
-                <div id="editMode" class="py-2">
-                    <div id="editParticipants" class="flex flex-wrap gap-2 pb-4">
-                        <!-- Participants will be dynamically added here -->
-                    </div>
-                    <!-- Participants input -->
-                    <div class="flex items-center pt-4">
-                        <input id="participantInput" type="text" placeholder="Input a participant">
-                        <button id="addParticipantBtn" class="btn-text pl-2" aria-label="Add participant">
-                            <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
-                                <path d="M23.3334 30L21.0001 27.5833L26.9167 21.6667H6.66675V18.3333H26.9167L21.0001 12.4167L23.3334 10L33.3334 20L23.3334 30Z" fill="currentColor"/>
-                            </svg>
-                        </button>
-                    </div>
+                <!-- Sort buttons -->
+                <div id="sortButtons" class="flex gap-4 py-2">
+                    <button id="shuffleBtn" class="btn-text" aria-label="Shuffle">
+                        <svg class="w-6 fill-current" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                            <path d="M23.3327 33.5309V30.1976H27.666L22.3743 24.9059L24.7493 22.5309L29.9993 27.7809V23.5309H33.3327V33.5309H23.3327ZM8.99935 33.5309L6.66602 31.1976L27.666 10.1976H23.3327V6.86426H33.3327V16.8643H29.9993V12.5309L8.99935 33.5309ZM15.291 17.8226L6.66602 9.19759L8.99935 6.86426L17.6243 15.4893L15.291 17.8226Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                    <button id="alphBtn" class="btn-text" aria-label="Sort alphabetically">
+                        <svg class="w-6 fill-current" alt="Sort" viewBox="0 0 40 41" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                            <path d="M3.33398 28.5312L9.58398 11.8646H13.1673L19.4173 28.5312H16.0007L14.584 24.5313H8.16732L6.83398 28.5312H3.33398ZM9.16732 21.6979H13.5007L11.5007 15.4479H11.2507L9.16732 21.6979ZM22.834 28.5312V25.3646L31.2507 14.8646H23.1673V11.8646H34.9173V15.0312L26.584 25.5312H35.0007V28.5312H22.834ZM15.0007 8.53125L20.0007 3.53125L25.0007 8.53125H15.0007ZM20.0007 36.8646L15.0007 31.8646H25.0007L20.0007 36.8646Z" fill="currentColor"/>
+                        </svg>
+                    </button>
                 </div>
             </div>
-            <%= button_to "Save", wheel_path(@wheel), method: :patch, class: "btn-secondary mt-8" %>
+            <!-- View past results -->
+            <div id="viewMode" class="hidden py-2">
+                <div class="flex flex-wrap gap-2" id="past-results">
+                    <% @results.each do |result| %>
+                        <div class="rounded-full bg-gray-800 text-white p-2 px-4 flex flex-row gap-2">
+                            <p><%= result.participant_name %></p>
+                        </div>
+                    <% end %>
+                </div>
+            </div>
+            <!-- Edit participants -->
+            <div id="editMode" class="py-2">
+                <div id="editParticipants" class="flex flex-wrap gap-2 pb-4">
+                    <!-- Participants dynamically added here -->
+                </div>
+                <!-- Participants input field -->
+                <div class="flex items-center pt-4">
+                    <input id="participantInput" type="text" placeholder="Input a participant">
+                    <button id="addParticipantBtn" class="btn-text pl-2" aria-label="Add participant">
+                        <svg class="w-8 fill-current" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-hidden="true">
+                            <path d="M23.3334 30L21.0001 27.5833L26.9167 21.6667H6.66675V18.3333H26.9167L21.0001 12.4167L23.3334 10L33.3334 20L23.3334 30Z" fill="currentColor"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -107,7 +105,7 @@
         editHalf.classList.add('hidden');
         exitBtn.classList.remove('hidden');
         spinet.classList.remove('hidden');
-        wheelHalf.classList.remove('w-1/2');
+        wheelHalf.classList.remove('md:w-1/2');
         wheelHalf.classList.add('w-full');
     }
     function exitPresentMode() {
@@ -117,7 +115,7 @@
         exitBtn.classList.add('hidden');
         spinet.classList.add('hidden');
         wheelHalf.classList.remove('w-full');
-        wheelHalf.classList.add('w-1/2');
+        wheelHalf.classList.add('md:w-1/2');
     }
     presentBtn.addEventListener('click', presentMode);
     exitBtn.addEventListener('click', exitPresentMode);
@@ -310,7 +308,6 @@
         timerDelay: 33,
         angleCurrent: 0,
         angleDelta: 0,
-        size: 290,
         canvasContext: null,
         colors: [
             "#4BB0E3",
@@ -328,6 +325,7 @@
         downTime: 5500, // How long to slow down for
         spinStart: 0,
         frames: 0,
+        size: 290,
         centerX: 300,
         centerY: 300,
 
@@ -512,11 +510,12 @@
             var canvas = document.getElementById("canvas");
             canvas.addEventListener("click", wheel.spin, false);
             wheel.canvasContext = canvas.getContext("2d");
+            wheel.updateCanvasSize();
         },
         initWheel: function () {
             shuffle(wheel.colors);
         },
-
+        
         // Called when segments have changed
         update: function () {
             // Ensure we start mid way on a item
@@ -534,7 +533,21 @@
             wheel.seg_color = seg_color;
             wheel.draw();
         },
-        
+
+        updateCanvasSize: function() {
+            var canvas = document.getElementById("canvas");
+            var container = canvas.parentElement;
+            var width = container.clientWidth;
+            var height = container.clientWidth;
+            // set width and height based on parent
+            canvas.width = width;
+            canvas.height = height;
+            // set wheel variables according to new width and height
+            wheel.size = Math.min(width, height) / 2 - 10;
+            wheel.centerX = width / 2;
+            wheel.centerY = height / 2;
+            wheel.draw();
+        },
         draw: function () {
             wheel.clear();
             wheel.drawWheel();
@@ -638,4 +651,5 @@
             window.scrollTo(0, 1);
         }, 0);
     };
+    window.addEventListener('resize', wheel.updateCanvasSize);
 </script>

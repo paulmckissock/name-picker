@@ -32,14 +32,11 @@
   .btn-text {
     @apply flex no-underline align-middle text-center text-light-gray cursor-pointer hover:text-dark-gray focus:text-dark-gray;
   }
-  .btn-text img {
-    @apply fill-blue-100;
-  }
   .btn-primary {
     @apply px-6 py-2 mb-6 bg-blue-500 text-off-white rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#3F80A0] border-[1px] border-blue-800 transition-all duration-150 active:translate-y-2 active:[box-shadow:0_0px_0_0_#3F80A0] active:border-b-[0px] hover:bg-blue-400 focus:bg-blue-400;
   }
   .btn-secondary {
-    @apply px-6 py-2 mb-10 bg-off-white text-yellow-800 rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#B98B37] border-[1px] border-yellow-800 transition-all duration-150 active:translate-y-2 active:[box-shadow:0_0px_0_0_#EEB71E] active:border-b-[0px] hover:bg-yellow-200 focus:bg-yellow-200;
+    @apply px-6 py-2 mb-6 bg-off-white text-yellow-800 rounded-lg cursor-pointer select-none [box-shadow:0_10px_0_0_#B98B37] border-[1px] border-yellow-800 transition-all duration-150 active:translate-y-2 active:[box-shadow:0_0px_0_0_#EEB71E] active:border-b-[0px] hover:bg-yellow-200 focus:bg-yellow-200;
   }
   .alert {
     @apply p-4 flex items-center;
