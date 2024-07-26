@@ -310,11 +310,13 @@
         angleCurrent: 0,
         angleDelta: 0,
         canvasContext: null,
-        colors: [
+        colors: [],
+        primaryColors: [
             "#4BB0E3",
-            "#85A4CA",
             "#E66C15",
             "#EEB71E",
+        ],
+        lightColors: [
             "#A5D8F1",
             "#F3B68A",
             "#F6DB8F",
@@ -349,7 +351,8 @@
             // Start the wheel only if not already spinning
             if (wheel.timerHandle == 0) {
                 wheel.spinStart = new Date().getTime();
-                wheel.maxSpeed = Math.PI / (Math.random() * (6 - 16) + 16); // Randomly vary how hard the spin is
+                wheel.maxSpeed = Math.PI / (Math.random() * (0.5 - 12) + 12); // Randomly vary how hard the spin is
+                console.log(wheel.maxSpeed);
                 wheel.frames = 0;
                 wheel.spinSound.play();
                 wheel.timerHandle = setInterval(wheel.onTimerTick, wheel.timerDelay);
@@ -514,7 +517,8 @@
             wheel.updateCanvasSize();
         },
         initWheel: function () {
-            shuffle(wheel.colors);
+            var chosenColors = Math.random() < 0.5 ? wheel.primaryColors : wheel.lightColors;
+            wheel.colors = chosenColors;
         },
         
         // Called when segments have changed
@@ -529,7 +533,8 @@
             // Generate a color cache (so we have consistant coloring)
             var seg_color = new Array();
             for (var i = 0; i < len; i++){
-                seg_color.push(colors[segments[i].hashCode().mod(colorLen)]);
+                var colorIndex = i % colorLen;
+                seg_color.push(colors[colorIndex]);
             }
             wheel.seg_color = seg_color;
             wheel.draw();
@@ -564,8 +569,8 @@
             var centerY = wheel.centerY;
             var size = wheel.size;
             ctx.lineWidth = 1;
-            ctx.strokeStyle = "#000000";
-            ctx.fileStyle = "#ffffff";
+            ctx.strokeStyle = "#282725";
+            ctx.fileStyle = "#ECF3F6";
             ctx.beginPath();
             ctx.moveTo(centerX + size - 20, centerY);
             ctx.lineTo(centerX + size + 15, centerY - 20);
@@ -597,7 +602,7 @@
             ctx.save(); // The save ensures this works on Android devices
             ctx.translate(centerX, centerY);
             ctx.rotate((lastAngle + angle) / 2);
-            ctx.fillStyle = "#000000";
+            ctx.fillStyle = "#282725";
             ctx.fillText(value.substr(0, 20), size / 2 + 20, 0);
             ctx.restore();
             ctx.restore();
@@ -615,10 +620,10 @@
             var size = wheel.size;
             var PI2 = Math.PI * 2;
             ctx.lineWidth = 1;
-            ctx.strokeStyle = "#000000";
+            ctx.strokeStyle = "#282725";
             ctx.textBaseline = "middle";
             ctx.textAlign = "center";
-            ctx.font = "1.4em Arial";
+            ctx.font = "1.2em Futura";
             for (var i = 1; i <= len; i++) {
                 var angle = PI2 * (i / len) + angleCurrent;
                 wheel.drawSegment(i - 1, lastAngle, angle);
@@ -628,16 +633,15 @@
             ctx.beginPath();
             ctx.arc(centerX, centerY, 20, 0, PI2, false);
             ctx.closePath();
-            ctx.fillStyle = "#ffffff";
-            ctx.strokeStyle = "#000000";
+            ctx.fillStyle = "#ECF3F6";
+            ctx.strokeStyle = "#282725";
             ctx.fill();
             ctx.stroke();
             // Draw outer circle
             ctx.beginPath();
             ctx.arc(centerX, centerY, size, 0, PI2, false);
             ctx.closePath();
-            ctx.lineWidth = 10;
-            ctx.strokeStyle = "#000000";
+            ctx.lineWidth = 5;
             ctx.stroke();
         }
     };
